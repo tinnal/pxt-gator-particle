@@ -1,0 +1,18 @@
+{
+    "name": "gatorparticle",
+    "version": "0.0.1",
+    "description": "SparkFun gator:Particle Particle Sensor",
+    "license": "MIT",
+    "dependencies": {
+        "core": "*"
+    },
+    "files": [
+        "README.md",
+        "gatorparticle.ts",
+        "gatorparticle.cpp",
+        "shims.d.ts",
+        "enums.d.ts"
+    ],
+    "testFiles": [],
+    "public": true
+}

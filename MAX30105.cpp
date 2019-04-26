@@ -730,9 +730,9 @@ void MAX30105::bitMask(uint8_t reg, uint8_t mask, uint8_t thing)
 // Low-level I2C Communication
 //
 uint8_t MAX30105::readRegister8(int address, char reg) {
-  _i2cPort->write(0x3C, &reg, true);
+  _i2cPort->write(address, &reg, true);
   char temp;
-  _i2cPort->read(0x3C, &temp, 1, false); // Request 1 uint8_t
+  _i2cPort->read(address, &temp, 1, false); // Request 1 uint8_t
 
 
   return (uint8_t)temp; //Fail
@@ -740,6 +740,6 @@ uint8_t MAX30105::readRegister8(int address, char reg) {
 }
 
 void MAX30105::writeRegister8(int address, char reg, char value) {
-  _i2cPort->write(0x3C, &reg, 1, true);
-  _i2cPort->write(0x3C, &value, 1, false);
+  _i2cPort->write(address, &reg, 1, true);
+  _i2cPort->write(address, &value, 1, false);
 }

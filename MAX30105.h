@@ -133,7 +133,7 @@ class MAX30105 {
 
  private:
   MicroBitI2C *_i2cPort; //The generic connection to user's chosen I2C hardware
-  int _i2caddr = 0x3C;
+  int _i2caddr = 0x57;
 
   //activeLEDs is the number of channels turned on, and can be 1 to 3. 2 is common for Red+IR.
   uint8_t activeLEDs; //Gets set during setup. Allows check() to calculate how many bytes to read from FIFO

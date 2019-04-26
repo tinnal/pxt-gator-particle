@@ -610,7 +610,7 @@ uint16_t MAX30105::check(void)
     int bytesLeftToRead = numberOfSamples * activeLEDs * 3;
 
     //Get ready to read a burst of data from the FIFO register
-    _i2cPort->write(MAX30105_ADDRESS, &MAX30105_FIFODATA, 1);
+    _i2cPort->write(MAX30105_ADDRESS, &MAX30105_FIFODATA, 1, true);
 
     //We may need to read as many as 288 uint8_ts so we read in blocks no larger than I2C_BUFFER_LENGTH
     //I2C_BUFFER_LENGTH changes based on the platform. 64 uint8_ts for SAMD21, 32 uint8_ts for Uno.

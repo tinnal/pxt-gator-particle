@@ -50,7 +50,7 @@ class MAX30105 {
  public: 
   MAX30105(void);
 
-  bool begin(MicroBitI2C &wirePort, uint8_t i2caddr = MAX30105_ADDRESS);
+  bool begin(MicroBitI2C &wirePort, int i2caddr = MAX30105_ADDRESS);
 
   uint32_t getRed(void); //Returns immediate red value
   uint32_t getIR(void); //Returns immediate IR value
@@ -128,12 +128,12 @@ class MAX30105 {
   void setup(uint8_t powerLevel = 0x1F, uint8_t sampleAverage = 4, uint8_t ledMode = 3, int sampleRate = 400, int pulseWidth = 411, int adcRange = 4096);
 
   // Low-level I2C communication
-  uint8_t readRegister8(uint8_t address, char reg);
-  void writeRegister8(uint8_t address, char reg, char value);
+  uint8_t readRegister8(int address, char reg);
+  void writeRegister8(int address, char reg, char value);
 
  private:
   MicroBitI2C *_i2cPort; //The generic connection to user's chosen I2C hardware
-  uint8_t _i2caddr = 0x57;
+  int _i2caddr = 0b10101110;
 
   //activeLEDs is the number of channels turned on, and can be 1 to 3. 2 is common for Red+IR.
   uint8_t activeLEDs; //Gets set during setup. Allows check() to calculate how many bytes to read from FIFO

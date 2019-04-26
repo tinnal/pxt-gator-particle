@@ -143,7 +143,7 @@ MAX30105::MAX30105() {
   // Constructor
 }
 
-bool MAX30105::begin(MicroBitI2C &wirePort, uint8_t i2caddr) {
+bool MAX30105::begin(MicroBitI2C &wirePort, int i2caddr) {
 
   _i2cPort = &wirePort; //Grab which port the user wants us to use
 
@@ -729,7 +729,7 @@ void MAX30105::bitMask(uint8_t reg, uint8_t mask, uint8_t thing)
 //
 // Low-level I2C Communication
 //
-uint8_t MAX30105::readRegister8(uint8_t address, char reg) {
+uint8_t MAX30105::readRegister8(int address, char reg) {
   _i2cPort->write(address, &reg, true);
   char temp;
   _i2cPort->read(address, &temp, 1, false); // Request 1 uint8_t
@@ -739,7 +739,7 @@ uint8_t MAX30105::readRegister8(uint8_t address, char reg) {
 
 }
 
-void MAX30105::writeRegister8(uint8_t address, char reg, char value) {
+void MAX30105::writeRegister8(int address, char reg, char value) {
   _i2cPort->write(address, &reg, 1, true);
   _i2cPort->write(address, &value, 1, false);
 }

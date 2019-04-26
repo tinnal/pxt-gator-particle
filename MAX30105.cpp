@@ -145,7 +145,8 @@ MAX30105::MAX30105() {
 
 bool MAX30105::begin(MicroBitI2C &wirePort, int i2caddr) {
 
-  _i2cPort = &wirePort; //Grab which port the user wants us to use
+  MicroBitI2C i2c(I2C_SDA0, I2C_SCL0);
+  _i2cPort = &i2c; //Grab which port the user wants us to use
 
   _i2caddr = i2caddr;
 

@@ -22,7 +22,7 @@
 #include "MicroBit.h"
 
 
-#define MAX30105_ADDRESS          0x57 //7-bit I2C Address
+#define MAX30105_ADDRESS          0x3C //7-bit I2C Address
 //Note that MAX30102 has the same I2C address and Part ID
 
 #define I2C_SPEED_STANDARD        100000

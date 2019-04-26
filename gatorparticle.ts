@@ -31,25 +31,44 @@
 
 //% color=#f44242 icon="\uf185"
 namespace gatorParticle {
-	let highAddress = 0x39
-    let lowAddress = 0x38
-    let araAddress = 0x0C
-	let commandRegister = 0x06
     // Functions for reading Particle from the gatorParticle in Particle or straight adv value
 	
-    //% weight=31 blockId="gatorParticle_begin" block="Initialize gator:Particle sensor"
-	export function begin() 
-	{
-		commandRegister = 0x06
+    //% weight=31 
+	//% blockId="gatorParticle_begin" 
+	//% block="Initialize gator:Particle sensor"
+	//% shim=gatorParticle::begin
+	export function begin(): boolean{
+		return false;
 	}
-    /**
+	    /**
     * Reads the number
     */
-    //% weight=30 blockId="gatorParticle_color" block="Get %gatorParticleType value"
-    export function color(type: gatorParticleRefreshTime): number{
+    //% weight=30 
+	//% blockId="gatorParticle_color" 
+	//% block="Get %gatorParticleType value"
+    export function color(type: gatorParticleType): number{
+		switch(type){
+			case gatorParticleType.red: return getRedValue()
+			case gatorParticleType.infrared: return getInfraredValue()
+			case gatorParticleType.green: return getGreenValue()
+		}
     }
-
-    //% weight=29 blockId="gatorParticle_detect" block="Detect %gatorDetectionType"
-    export function detect(): boolean{
-	}
+	
+	/**
+     * Functions used for simulator, actual implementations are in gatorparticle.cpp
+     */
+    //% shim=gatorParticle::getRedValue
+    function getRedValue(): number{
+        return 0;
+    }
+	
+	//% shim=gatorParticle::getInfraredValue
+    function getInfraredValue(): number{
+        return 0;
+    }
+	
+	//% shim=gatorParticle::getGreenValue
+    function getGreenValue(): number{
+        return 0;
+    }
 }

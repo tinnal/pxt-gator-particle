@@ -10,6 +10,8 @@
         "README.md",
         "gatorparticle.ts",
         "gatorparticle.cpp",
+		"MAX30105.cpp",
+		"MAX30105.h",
         "shims.d.ts",
         "enums.d.ts"
     ],

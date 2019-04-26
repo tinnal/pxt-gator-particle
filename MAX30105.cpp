@@ -160,6 +160,7 @@ bool MAX30105::begin(MicroBitI2C &wirePort, uint8_t i2caddr) {
   // Populate revision ID
   readRevisionID();
   
+  
   return true;
 }
 

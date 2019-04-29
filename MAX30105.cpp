@@ -734,7 +734,7 @@ uint8_t MAX30105::readRegister8(uint8_t address, char reg) {
   char temp;
   uBit.i2c.read(MAX30105_ADDRESS, &temp, 1, false); // Request 1 uint8_t
 */
-  return uBit.i2c.readRegister(address, reg); //Fail
+  return uBit.i2c.readRegister(MAX30105_ADDRESS, reg); //Fail
 }
 
 void MAX30105::writeRegister8(uint8_t address, char reg, char value) {

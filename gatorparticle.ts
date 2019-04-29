@@ -35,7 +35,7 @@ namespace gatorParticle {
 	
     //% weight=31 
 	//% blockId="gatorParticle_begin" 
-	//% block="Initialize this gator:Particle sensor"
+	//% block="Initialize gator:Particle sensor"
 	//% shim=gatorParticle::begin
 	export function begin(): boolean{
 		return true;

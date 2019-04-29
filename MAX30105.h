@@ -22,7 +22,7 @@
 #include "MicroBit.h"
 
 
-#define MAX30105_ADDRESS          0x57 //7-bit I2C Address
+#define MAX30105_ADDRESS          0x46 //7-bit I2C Address
 //Note that MAX30102 has the same I2C address and Part ID
 
 #define I2C_SPEED_STANDARD        100000
@@ -133,7 +133,7 @@ class MAX30105 {
 
  private:
   MicroBitI2C *_i2cPort; //The generic connection to user's chosen I2C hardware
-  uint8_t _i2caddr = 0x57;
+  uint8_t _i2caddr = 0x46;
 
   //activeLEDs is the number of channels turned on, and can be 1 to 3. 2 is common for Red+IR.
   uint8_t activeLEDs; //Gets set during setup. Allows check() to calculate how many bytes to read from FIFO

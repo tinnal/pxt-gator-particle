@@ -128,8 +128,8 @@ class MAX30105 {
   void setup(uint8_t powerLevel = 0x1F, uint8_t sampleAverage = 4, uint8_t ledMode = 3, int sampleRate = 400, int pulseWidth = 411, int adcRange = 4096);
 
   // Low-level I2C communication
-  uint8_t readRegister8(uint8_t address, char reg);
-  void writeRegister8(uint8_t address, char reg, char value);
+  uint8_t readRegister8(uint8_t address, uint8_t reg);
+  void writeRegister8(uint8_t address, uint8_t reg, uint8_t value);
 
  private:
   MicroBitI2C *_i2cPort; //The generic connection to user's chosen I2C hardware

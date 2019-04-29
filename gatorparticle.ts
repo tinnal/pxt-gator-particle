@@ -53,6 +53,17 @@ namespace gatorParticle {
 			case gatorParticleType.infrared: return getInfraredValue()
 			case gatorParticleType.green: return getGreenValue()
 		}
+    }  
+
+	//% weight=30 
+	//% blockId="gatorParticle_detect" 
+	//% block="Detect %gatorDetectionType"
+    export function detect(type: gatorParticleType): boolean{
+		switch(type){
+			case gatorParticleType.red: return true
+			case gatorParticleType.infrared: return true
+			case gatorParticleType.green: return true
+		}
     }
 	
 	/**

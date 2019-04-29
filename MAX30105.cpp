@@ -143,7 +143,7 @@ MAX30105::MAX30105() {
   // Constructor
 }
 
-bool MAX30105::begin(MicroBitI2C &wirePort, int i2caddr) {
+bool MAX30105::begin(MicroBitI2C &wirePort, uint8_t i2caddr) {
 
   _i2cPort = &wirePort; //Grab which port the user wants us to use
 

@@ -50,7 +50,7 @@ class MAX30105 {
  public: 
   MAX30105(void);
 
-  bool begin(MicroBitI2C &wirePort, uint8_t i2caddr = MAX30105_ADDRESS);
+  bool begin(MicroBitI2C &wirePort);
 
   uint32_t getRed(void); //Returns immediate red value
   uint32_t getIR(void); //Returns immediate IR value

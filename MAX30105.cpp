@@ -143,11 +143,11 @@ MAX30105::MAX30105() {
   // Constructor
 }
 
-bool MAX30105::begin(MicroBitI2C &wirePort, uint8_t i2caddr) {
+bool MAX30105::begin(MicroBitI2C &wirePort) {
 
   _i2cPort = &wirePort; //Grab which port the user wants us to use
 
-  _i2caddr = i2caddr;
+  _i2caddr = 0xAE;
 
   // Step 1: Initial Communication and Verification
   // Check that a MAX30105 is connected

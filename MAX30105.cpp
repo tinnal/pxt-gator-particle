@@ -643,9 +643,9 @@ uint16_t MAX30105::check(void)
 
         //Burst read three uint8_ts - RED
         temp[3] = 0;
-        uBit.i2c.read(_i2caddr, &temp[2], 1, true);
-        uBit.i2c.read(_i2caddr, &temp[1], 1, true);
-        uBit.i2c.read(_i2caddr, &temp[0], 1, true);
+          uBit.i2c.read(MAX30105_ADDRESS, &temp[2], 1, true);
+          uBit.i2c.read(MAX30105_ADDRESS, &temp[1], 1, true);
+          uBit.i2c.read(MAX30105_ADDRESS, &temp[0], 1, true);
 
         //Convert array to long
         memcpy(&tempLong, temp, sizeof(tempLong));
@@ -658,9 +658,9 @@ uint16_t MAX30105::check(void)
         {
           //Burst read three more uint8_ts - IR
           temp[3] = 0;
-          uBit.i2c.read(_i2caddr, &temp[2], 1, true);
-          uBit.i2c.read(_i2caddr, &temp[1], 1, true);
-          uBit.i2c.read(_i2caddr, &temp[0], 1, true);
+          uBit.i2c.read(MAX30105_ADDRESS, &temp[2], 1, true);
+          uBit.i2c.read(MAX30105_ADDRESS, &temp[1], 1, true);
+          uBit.i2c.read(MAX30105_ADDRESS, &temp[0], 1, true);
           //Convert array to long
           memcpy(&tempLong, temp, sizeof(tempLong));
 
@@ -673,9 +673,9 @@ uint16_t MAX30105::check(void)
         {
           //Burst read three more uint8_ts - Green
           temp[3] = 0;
-          uBit.i2c.read(_i2caddr, &temp[2], 1, true);
-          uBit.i2c.read(_i2caddr, &temp[1], 1, true);
-          uBit.i2c.read(_i2caddr, &temp[0], 1, true);
+          uBit.i2c.read(MAX30105_ADDRESS, &temp[2], 1, true);
+          uBit.i2c.read(MAX30105_ADDRESS, &temp[1], 1, true);
+          uBit.i2c.read(MAX30105_ADDRESS, &temp[0], 1, true);
 
           //Convert array to long
           memcpy(&tempLong, temp, sizeof(tempLong));
@@ -730,9 +730,9 @@ void MAX30105::bitMask(uint8_t reg, uint8_t mask, uint8_t thing)
 // Low-level I2C Communication
 //
 uint8_t MAX30105::readRegister8(uint8_t address, char reg) {
-  uBit.i2c.write(_i2caddr, &reg, true);
+  uBit.i2c.write(MAX30105_ADDRESS, &reg, true);
   char temp;
-  uBit.i2c.read(_i2caddr, &temp, 1, false); // Request 1 uint8_t
+  uBit.i2c.read(MAX30105_ADDRESS, &temp, 1, false); // Request 1 uint8_t
 
 
   return (uint8_t)temp; //Fail
@@ -740,6 +740,6 @@ uint8_t MAX30105::readRegister8(uint8_t address, char reg) {
 }
 
 void MAX30105::writeRegister8(uint8_t address, char reg, char value) {
-  uBit.i2c.write(_i2caddr, &reg, 1, true);
-  uBit.i2c.write(_i2caddr, &value, 1, false);
+  uBit.i2c.write(MAX30105_ADDRESS, &reg, 1, true);
+  uBit.i2c.write(MAX30105_ADDRESS, &value, 1, false);
 }

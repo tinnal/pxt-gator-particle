@@ -55,7 +55,7 @@ namespace gatorParticle {
 		}
 	}
 	
-	/*
+	
 	//% weight=29 
 	//% blockId="gatorParticle_detect" 
 	//% block="Detect %gatorDetectionType"
@@ -65,7 +65,7 @@ namespace gatorParticle {
 			case gatorParticleType.infrared: return true
 			case gatorParticleType.green: return true
 		}
-	}*/
+	}
 	
 	/**
 	* Functions used for simulator, actual implementations are in gatorparticle.cpp

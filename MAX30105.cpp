@@ -147,8 +147,6 @@ bool MAX30105::begin(MicroBitI2C &wirePort) {
 
   _i2cPort = &wirePort; //Grab which port the user wants us to use
 
-  _i2caddr = 0xAE;
-
   // Step 1: Initial Communication and Verification
   // Check that a MAX30105 is connected
   if (readPartID() != MAX_30105_EXPECTEDPARTID) {
@@ -170,10 +168,10 @@ bool MAX30105::begin(MicroBitI2C &wirePort) {
 
 //Begin Interrupt configuration
 uint8_t MAX30105::getINT1(void) {
-  return (readRegister8(_i2caddr, MAX30105_INTSTAT1));
+  return (readRegister8(MAX30105_ADDRESS, MAX30105_INTSTAT1));
 }
 uint8_t MAX30105::getINT2(void) {
-  return (readRegister8(_i2caddr, MAX30105_INTSTAT2));
+  return (readRegister8(MAX30105_ADDRESS, MAX30105_INTSTAT2));
 }
 
 void MAX30105::enableAFULL(void) {
@@ -221,7 +219,7 @@ void MAX30105::softReset(void) {
   unsigned long startTime = uBit.systemTime();
   while (uBit.systemTime() - startTime < 100)
   {
-    uint8_t response = readRegister8(_i2caddr, MAX30105_MODECONFIG);
+    uint8_t response = readRegister8(MAX30105_ADDRESS, MAX30105_MODECONFIG);
     if ((response & MAX30105_RESET) == 0) break; //We're done!
     uBit.sleep(1); //Let's not over burden the I2C bus
   }
@@ -263,26 +261,26 @@ void MAX30105::setPulseWidth(uint8_t pulseWidth) {
 // NOTE: Amplitude values: 0x00 = 0mA, 0x7F = 25.4mA, 0xFF = 50mA (typical)
 // See datasheet, page 21
 void MAX30105::setPulseAmplitudeRed(uint8_t amplitude) {
-  writeRegister8(_i2caddr, MAX30105_LED1_PULSEAMP, amplitude);
+  writeRegister8(MAX30105_ADDRESS, MAX30105_LED1_PULSEAMP, amplitude);
 }
 
 void MAX30105::setPulseAmplitudeIR(uint8_t amplitude) {
-  writeRegister8(_i2caddr, MAX30105_LED2_PULSEAMP, amplitude);
+  writeRegister8(MAX30105_ADDRESS, MAX30105_LED2_PULSEAMP, amplitude);
 }
 
 void MAX30105::setPulseAmplitudeGreen(uint8_t amplitude) {
-  writeRegister8(_i2caddr, MAX30105_LED3_PULSEAMP, amplitude);
+  writeRegister8(MAX30105_ADDRESS, MAX30105_LED3_PULSEAMP, amplitude);
 }
 
 void MAX30105::setPulseAmplitudeProximity(uint8_t amplitude) {
-  writeRegister8(_i2caddr, MAX30105_LED_PROX_AMP, amplitude);
+  writeRegister8(MAX30105_ADDRESS, MAX30105_LED_PROX_AMP, amplitude);
 }
 
 void MAX30105::setProximityThreshold(uint8_t threshMSB) {
   // Set the IR ADC count that will trigger the beginning of particle-sensing mode.
   // The threshMSB signifies only the 8 most significant-bits of the ADC count.
   // See datasheet, page 24.
-  writeRegister8(_i2caddr, MAX30105_PROXINTTHRESH, threshMSB);
+  writeRegister8(MAX30105_ADDRESS, MAX30105_PROXINTTHRESH, threshMSB);
 }
 
 //Given a slot number assign a thing to it
@@ -312,8 +310,8 @@ void MAX30105::enableSlot(uint8_t slotNumber, uint8_t device) {
 
 //Clears all slot assignments
 void MAX30105::disableSlots(void) {
-  writeRegister8(_i2caddr, MAX30105_MULTILEDCONFIG1, 0);
-  writeRegister8(_i2caddr, MAX30105_MULTILEDCONFIG2, 0);
+  writeRegister8(MAX30105_ADDRESS, MAX30105_MULTILEDCONFIG1, 0);
+  writeRegister8(MAX30105_ADDRESS, MAX30105_MULTILEDCONFIG2, 0);
 }
 
 //
@@ -328,9 +326,9 @@ void MAX30105::setFIFOAverage(uint8_t numberOfSamples) {
 //Resets all points to start in a known state
 //Page 15 recommends clearing FIFO before beginning a read
 void MAX30105::clearFIFO(void) {
-  writeRegister8(_i2caddr, MAX30105_FIFOWRITEPTR, 0);
-  writeRegister8(_i2caddr, MAX30105_FIFOOVERFLOW, 0);
-  writeRegister8(_i2caddr, MAX30105_FIFOREADPTR, 0);
+  writeRegister8(MAX30105_ADDRESS, MAX30105_FIFOWRITEPTR, 0);
+  writeRegister8(MAX30105_ADDRESS, MAX30105_FIFOOVERFLOW, 0);
+  writeRegister8(MAX30105_ADDRESS, MAX30105_FIFOREADPTR, 0);
 }
 
 //Enable roll over if FIFO over flows
@@ -352,12 +350,12 @@ void MAX30105::setFIFOAlmostFull(uint8_t numberOfSamples) {
 
 //Read the FIFO Write Pointer
 uint8_t MAX30105::getWritePointer(void) {
-  return (readRegister8(_i2caddr, MAX30105_FIFOWRITEPTR));
+  return (readRegister8(MAX30105_ADDRESS, MAX30105_FIFOWRITEPTR));
 }
 
 //Read the FIFO Read Pointer
 uint8_t MAX30105::getReadPointer(void) {
-  return (readRegister8(_i2caddr, MAX30105_FIFOREADPTR));
+  return (readRegister8(MAX30105_ADDRESS, MAX30105_FIFOREADPTR));
 }
 
 
@@ -369,18 +367,18 @@ float MAX30105::readTemperature() {
   //See issue 19: https://github.com/sparkfun/SparkFun_MAX3010x_Sensor_Library/issues/19
   
   // Step 1: Config die temperature register to take 1 temperature sample
-  writeRegister8(_i2caddr, MAX30105_DIETEMPCONFIG, 0x01);
+  writeRegister8(MAX30105_ADDRESS, MAX30105_DIETEMPCONFIG, 0x01);
 
   // Poll for bit to clear, reading is then complete
   // Timeout after 100ms
   unsigned long startTime = uBit.systemTime();
   while (uBit.systemTime() - startTime < 100)
   {
-    //uint8_t response = readRegister8(_i2caddr, MAX30105_DIETEMPCONFIG); //Original way
+    //uint8_t response = readRegister8(MAX30105_ADDRESS, MAX30105_DIETEMPCONFIG); //Original way
     //if ((response & 0x01) == 0) break; //We're done!
     
 	//Check to see if DIE_TEMP_RDY interrupt is set
-	uint8_t response = readRegister8(_i2caddr, MAX30105_INTSTAT2);
+	uint8_t response = readRegister8(MAX30105_ADDRESS, MAX30105_INTSTAT2);
     if ((response & MAX30105_INT_DIE_TEMP_RDY_ENABLE) > 0) break; //We're done!
     uBit.sleep(1); //Let's not over burden the I2C bus
   }
@@ -388,8 +386,8 @@ float MAX30105::readTemperature() {
   //? if(uBit.systemTime() - startTime >= 100) return(-999.0);
 
   // Step 2: Read die temperature register (integer)
-  int8_t tempInt = readRegister8(_i2caddr, MAX30105_DIETEMPINT);
-  uint8_t tempFrac = readRegister8(_i2caddr, MAX30105_DIETEMPFRAC); //Causes the clearing of the DIE_TEMP_RDY interrupt
+  int8_t tempInt = readRegister8(MAX30105_ADDRESS, MAX30105_DIETEMPINT);
+  uint8_t tempFrac = readRegister8(MAX30105_ADDRESS, MAX30105_DIETEMPFRAC); //Causes the clearing of the DIE_TEMP_RDY interrupt
 
   // Step 3: Calculate temperature (datasheet pg. 23)
   return (float)tempInt + ((float)tempFrac * 0.0625);
@@ -406,7 +404,7 @@ float MAX30105::readTemperatureF() {
 
 // Set the PROX_INT_THRESHold
 void MAX30105::setPROXINTTHRESH(uint8_t val) {
-  writeRegister8(_i2caddr, MAX30105_PROXINTTHRESH, val);
+  writeRegister8(MAX30105_ADDRESS, MAX30105_PROXINTTHRESH, val);
 }
 
 
@@ -414,11 +412,11 @@ void MAX30105::setPROXINTTHRESH(uint8_t val) {
 // Device ID and Revision
 //
 uint8_t MAX30105::readPartID() {
-  return readRegister8(_i2caddr, MAX30105_PARTID);
+  return readRegister8(MAX30105_ADDRESS, MAX30105_PARTID);
 }
 
 void MAX30105::readRevisionID() {
-  revisionID = readRegister8(_i2caddr, MAX30105_REVISIONID);
+  revisionID = readRegister8(MAX30105_ADDRESS, MAX30105_REVISIONID);
 }
 
 uint8_t MAX30105::getRevisionID() {
@@ -717,13 +715,13 @@ bool MAX30105::safeCheck(uint8_t maxTimeToCheck)
 void MAX30105::bitMask(uint8_t reg, uint8_t mask, uint8_t thing)
 {
   // Grab current register context
-  uint8_t originalContents = readRegister8(_i2caddr, reg);
+  uint8_t originalContents = readRegister8(MAX30105_ADDRESS, reg);
 
   // Zero-out the portions of the register we're interested in
   originalContents = originalContents & mask;
 
   // Change contents
-  writeRegister8(_i2caddr, reg, originalContents | thing);
+  writeRegister8(MAX30105_ADDRESS, reg, originalContents | thing);
 }
 
 //
@@ -738,6 +736,5 @@ uint8_t MAX30105::readRegister8(uint8_t address, char reg) {
 }
 
 void MAX30105::writeRegister8(uint8_t address, char reg, char value) {
-  uBit.i2c.write(MAX30105_ADDRESS, &reg, 1, true);
-  uBit.i2c.write(MAX30105_ADDRESS, &value, 1, false);
+  uBit.i2c.writeRegister(address, reg, value);
 }

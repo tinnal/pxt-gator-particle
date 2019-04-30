@@ -609,7 +609,7 @@ uint16_t MAX30105::check(void)
     int bytesLeftToRead = numberOfSamples * activeLEDs * 3;
 
     //Get ready to read a burst of data from the FIFO register
-    //uBit.i2c.write(MAX30105_ADDRESS, &MAX30105_FIFODATA, 1, true);
+    uBit.i2c.write(MAX30105_ADDRESS, (char *)MAX30105_FIFODATA, 1, true);
 
     //We may need to read as many as 288 uint8_ts so we read in blocks no larger than I2C_BUFFER_LENGTH
     //I2C_BUFFER_LENGTH changes based on the platform. 64 uint8_ts for SAMD21, 32 uint8_ts for Uno.
@@ -636,12 +636,14 @@ uint16_t MAX30105::check(void)
         sense.head++; //Advance the head of the storage struct
         sense.head %= STORAGE_SIZE; //Wrap condition
 
-        uint8_t temp[sizeof(uint32_t)]; //Array of 4 uint8_ts that we will convert into long
+        uint8_t temp[3 * sizeof(uint32_t)]; //Array of 12 uint8_ts that we will convert into 3 longs
         uint32_t tempLong;
-
+		
         //Burst read three uint8_ts - RED
         temp[3] = 0;
-        uBit.i2c.readRegister(MAX30105_ADDRESS, MAX30105_FIFODATA, temp, 3);
+        uBit.i2c.read(MAX30105_ADDRESS, (char *)temp[2], 1, true);
+        uBit.i2c.read(MAX30105_ADDRESS, (char *)temp[1], 1, true);
+        uBit.i2c.read(MAX30105_ADDRESS, (char *)temp[0], 1, true);
 
         //Convert array to long
         memcpy(&tempLong, temp, sizeof(tempLong));
@@ -654,7 +656,9 @@ uint16_t MAX30105::check(void)
         {
           //Burst read three more uint8_ts - IR
           temp[3] = 0;
-          uBit.i2c.readRegister(MAX30105_ADDRESS, MAX30105_FIFODATA, temp, 3);
+          uBit.i2c.read(MAX30105_ADDRESS, (char *)temp[2], 1, true);
+          uBit.i2c.read(MAX30105_ADDRESS, (char *)temp[1], 1, true);
+          uBit.i2c.read(MAX30105_ADDRESS, (char *)temp[0], 1, true);
           //Convert array to long
           memcpy(&tempLong, temp, sizeof(tempLong));
 
@@ -667,7 +671,9 @@ uint16_t MAX30105::check(void)
         {
           //Burst read three more uint8_ts - Green
           temp[3] = 0;
-          uBit.i2c.readRegister(MAX30105_ADDRESS, MAX30105_FIFODATA, temp, 3);
+          uBit.i2c.read(MAX30105_ADDRESS, (char *)temp[2], 1, true);
+          uBit.i2c.read(MAX30105_ADDRESS, (char *)temp[1], 1, true);
+          uBit.i2c.read(MAX30105_ADDRESS, (char *)temp[0], 1, true);
           //Convert array to long
           memcpy(&tempLong, temp, sizeof(tempLong));
 
@@ -721,10 +727,6 @@ void MAX30105::bitMask(uint8_t reg, uint8_t mask, uint8_t thing)
 // Low-level I2C Communication
 //
 uint8_t MAX30105::readRegister8(uint8_t address, uint8_t reg) {
-  /*uBit.i2c.write(MAX30105_ADDRESS, &reg, 1, true);
-  uint8_t temp;
-  uBit.i2c.read(MAX30105_ADDRESS, &temp, 1, false); // Request 1 uint8_t
-*/
   return uBit.i2c.readRegister(MAX30105_ADDRESS, reg); //Fail
 }
 

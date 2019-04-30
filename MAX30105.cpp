@@ -613,7 +613,7 @@ uint16_t MAX30105::check(void)
     //We may need to read as many as 288 uint8_ts so we read in blocks no larger than I2C_BUFFER_LENGTH
     //I2C_BUFFER_LENGTH changes based on the platform. 64 uint8_ts for SAMD21, 32 uint8_ts for Uno.
     //Wire.requestFrom() is limited to BUFFER_LENGTH which is 32 on the Uno
-    uBit.i2c.write(MAX30105_ADDRESS, (char *)MAX30105_FIFODATA, 1, false);
+    uBit.i2c.write(MAX30105_ADDRESS, (char *)0x07, 1, false);
     while (bytesLeftToRead > 0)
     {
       int toGet = bytesLeftToRead;

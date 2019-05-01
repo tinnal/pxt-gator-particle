@@ -601,12 +601,12 @@ uint16_t MAX30105::check(void)
   if (readPointer != writePointer)
   {
     //Calculate the number of readings we need to get from sensor
-    numberOfSamples = 1;//writePointer - readPointer;
+    numberOfSamples = writePointer - readPointer;
     if (numberOfSamples < 0) numberOfSamples += I2C_BUFFER_LENGTH; //Wrap condition
 
     //We now have the number of readings, now calc uint8_ts to read
     //For this example we are just doing Red and IR (3 uint8_ts each)
-    uint8_t bytesLeftToRead = numberOfSamples * activeLEDs * 3;
+    uint8_t bytesLeftToRead = numberOfSamples * 3 * 3;
 
     //Get ready to read a burst of data from the FIFO register
 

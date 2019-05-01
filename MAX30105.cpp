@@ -641,11 +641,14 @@ uint16_t MAX30105::check(void)
 		switch (activeLEDs)
 		{
 			case 1:
-			uBit.i2c.read(MAX30105_ADDRESS, (char *)temp, 3);
+				uBit.i2c.read(MAX30105_ADDRESS, (char *)temp, 3);
+				break;
 			case 2:
-			uBit.i2c.read(MAX30105_ADDRESS, (char *)temp, 6);
+				uBit.i2c.read(MAX30105_ADDRESS, (char *)temp, 6);
+				break;
 			case 3:
-			uBit.i2c.read(MAX30105_ADDRESS, (char *)temp, 9);
+				uBit.i2c.read(MAX30105_ADDRESS, (char *)temp, 9);
+				break;
 		}
         //Burst read three uint8_ts - RED
         /*temp[3] = 0;

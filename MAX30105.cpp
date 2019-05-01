@@ -613,7 +613,7 @@ uint16_t MAX30105::check(void)
     //We may need to read as many as 288 uint8_ts so we read in blocks no larger than I2C_BUFFER_LENGTH
     //I2C_BUFFER_LENGTH changes based on the platform. 64 uint8_ts for SAMD21, 32 uint8_ts for Uno.
     //Wire.requestFrom() is limited to BUFFER_LENGTH which is 32 on the Uno
-    uBit.i2c.write(MAX30105_ADDRESS, &MAX30105_FIFODATA, 1, true);
+    //uBit.i2c.write(MAX30105_ADDRESS, &MAX30105_FIFODATA, 1, TRUE);
     while (bytesLeftToRead > 0)
     {
       int toGet = bytesLeftToRead;
@@ -630,27 +630,15 @@ uint16_t MAX30105::check(void)
 
       //Request toGet number of uint8_ts from sensor
       //uBit.i2c.requestFrom(MAX30105_ADDRESS, toGet);
-      
+      uint8_t temp[32]; //Array of 9 uint8_ts that we will convert into 3 longs
+      uBit.i2c.readRegister(MAX30105_ADDRESS, (uint8_t)MAX30105_FIFODATA, &temp[0], toGet);
       while (toGet > 0)
       {
         sense.head++; //Advance the head of the storage struct
         sense.head %= STORAGE_SIZE; //Wrap condition
 
-        uint8_t temp[9]; //Array of 9 uint8_ts that we will convert into 3 longs
         uint32_t tempLong;
-		switch (activeLEDs)
-		{
-			case 1:
-				uBit.i2c.read(MAX30105_ADDRESS, (char *)temp, 3);
-				break;
-			case 2:
-				uBit.i2c.read(MAX30105_ADDRESS, (char *)temp, 6);
-				break;
-			case 3:
-				uBit.i2c.read(MAX30105_ADDRESS, (char *)temp, 9);
-				break;
-		}
-        //Burst read three uint8_ts - RED
+		//Burst read three uint8_ts - RED
         /*temp[3] = 0;
         uBit.i2c.readRegister(MAX30105_ADDRESS, (char *)temp[2], 3, true);
         //Convert array to long

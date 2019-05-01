@@ -636,15 +636,20 @@ uint16_t MAX30105::check(void)
         sense.head++; //Advance the head of the storage struct
         sense.head %= STORAGE_SIZE; //Wrap condition
 
-        uint8_t temp[3 * sizeof(uint32_t)]; //Array of 12 uint8_ts that we will convert into 3 longs
+        uint8_t temp[9]; //Array of 9 uint8_ts that we will convert into 3 longs
         uint32_t tempLong;
-		
+		switch (activeLEDs)
+		{
+			case 1:
+			uBit.i2c.read(MAX30105_ADDRESS, (char *)temp, 3);
+			case 2:
+			uBit.i2c.read(MAX30105_ADDRESS, (char *)temp, 6);
+			case 3:
+			uBit.i2c.read(MAX30105_ADDRESS, (char *)temp, 9);
+		}
         //Burst read three uint8_ts - RED
-        temp[3] = 0;
-        uBit.i2c.read(MAX30105_ADDRESS, (char *)temp[2], 1, true);
-        uBit.i2c.read(MAX30105_ADDRESS, (char *)temp[1], 1, true);
-        uBit.i2c.read(MAX30105_ADDRESS, (char *)temp[0], 1, true);
-
+        /*temp[3] = 0;
+        uBit.i2c.readRegister(MAX30105_ADDRESS, (char *)temp[2], 3, true);
         //Convert array to long
         memcpy(&tempLong, temp, sizeof(tempLong));
 		
@@ -680,7 +685,7 @@ uint16_t MAX30105::check(void)
 		  tempLong &= 0x3FFFF; //Zero out all but 18 bits
 
           sense.green[sense.head] = tempLong;
-        }
+        }*/
 
         toGet -= activeLEDs * 3;
       }

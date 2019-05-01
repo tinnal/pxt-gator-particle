@@ -595,7 +595,7 @@ uint16_t MAX30105::check(void)
   uint8_t readPointer = getReadPointer();
   uint8_t writePointer = getWritePointer();
 
-  int numberOfSamples = 0;
+  uint8_t numberOfSamples = 0;
 
   //Do we have new data?
   if (readPointer != writePointer)
@@ -606,7 +606,7 @@ uint16_t MAX30105::check(void)
 
     //We now have the number of readings, now calc uint8_ts to read
     //For this example we are just doing Red and IR (3 uint8_ts each)
-    int bytesLeftToRead = numberOfSamples * activeLEDs * 3;
+    uint8_t bytesLeftToRead = numberOfSamples * activeLEDs * 3;
 
     //Get ready to read a burst of data from the FIFO register
 
@@ -630,8 +630,8 @@ uint16_t MAX30105::check(void)
 
       //Request toGet number of uint8_ts from sensor
       //uBit.i2c.requestFrom(MAX30105_ADDRESS, toGet);
-      uint8_t temp[32]; //Array of 9 uint8_ts that we will convert into 3 longs
-      uBit.i2c.readRegister(MAX30105_ADDRESS, (uint8_t)MAX30105_FIFODATA, &temp[0], toGet);
+      uint8_t temp[32]; //Array of 32 uint8_ts that we will convert into longs
+      uBit.i2c.readRegister(MAX30105_ADDRESS, (uint8_t)MAX30105_FIFODATA, &temp[0], 9);
       while (toGet > 0)
       {
         sense.head++; //Advance the head of the storage struct

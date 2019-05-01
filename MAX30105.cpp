@@ -641,8 +641,8 @@ uint16_t MAX30105::check(void)
 		
         //Burst read three uint8_ts - RED
         temp[3] = 0;
-        uBit.i2c.read(MAX30105_ADDRESS, (char *)temp[2], 1, true);
-        uBit.i2c.read(MAX30105_ADDRESS, (char *)temp[1], 1, true);
+        uBit.i2c.read(MAX30105_ADDRESS, (char *)temp[2], 1, false);
+        uBit.i2c.read(MAX30105_ADDRESS, (char *)temp[1], 1, false);
         uBit.i2c.read(MAX30105_ADDRESS, (char *)temp[0], 1, false);
 
         //Convert array to long
@@ -656,8 +656,8 @@ uint16_t MAX30105::check(void)
         {
           //Burst read three more uint8_ts - IR
           temp[3] = 0;
-          uBit.i2c.read(MAX30105_ADDRESS, (char *)temp[2], 1, true);
-          uBit.i2c.read(MAX30105_ADDRESS, (char *)temp[1], 1, true);
+          uBit.i2c.read(MAX30105_ADDRESS, (char *)temp[2], 1, false);
+          uBit.i2c.read(MAX30105_ADDRESS, (char *)temp[1], 1, false);
           uBit.i2c.read(MAX30105_ADDRESS, (char *)temp[0], 1, false);
           //Convert array to long
           memcpy(&tempLong, temp, sizeof(tempLong));
@@ -671,8 +671,8 @@ uint16_t MAX30105::check(void)
         {
           //Burst read three more uint8_ts - Green
           temp[3] = 0;
-          uBit.i2c.read(MAX30105_ADDRESS, (char *)temp[2], 1, true);
-          uBit.i2c.read(MAX30105_ADDRESS, (char *)temp[1], 1, true);
+          uBit.i2c.read(MAX30105_ADDRESS, (char *)temp[2], 1, false);
+          uBit.i2c.read(MAX30105_ADDRESS, (char *)temp[1], 1, false);
           uBit.i2c.read(MAX30105_ADDRESS, (char *)temp[0], 1, false);
           //Convert array to long
           memcpy(&tempLong, temp, sizeof(tempLong));

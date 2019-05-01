@@ -14,7 +14,6 @@
 #include "mbed.h"
 #include "MicroBit.h"
 
-
 #define MAX30105_ADDRESS          0xAE //8-bit I2C Address
 //Note that MAX30102 has the same I2C address and Part ID
 

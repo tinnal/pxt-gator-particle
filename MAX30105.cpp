@@ -618,22 +618,37 @@ uint16_t MAX30105::check(void)
     //uBit.i2c.write(MAX30105_ADDRESS, &MAX30105_FIFODATA, 1, TRUE);
     while (bytesLeftToRead > 0)
     {
-      uint8_t toGet = bytesLeftToRead;
-      if (toGet > I2C_BUFFER_LENGTH)
-      {
-        //If toGet is 32 this is bad because we read 6 uint8_ts (Red+IR * 3 = 6) at a time
-        //32 % 6 = 2 left over. We don't want to request 32 uint8_ts, we want to request 30.
-        //32 % 9 (Red+IR+GREEN) = 5 left over. We want to request 27.
-
-        toGet = I2C_BUFFER_LENGTH - (I2C_BUFFER_LENGTH % (activeDiodes * 3)); //Trim toGet to be a multiple of the samples we need to read
-      }
+      uint8_t toGet = activeDiodes * 3;
 
       //Request toGet number of uint8_ts from sensor
       //uBit.i2c.requestFrom(MAX30105_ADDRESS, toGet);
-      uint8_t temp[32]; //Array of 32 uint8_ts that we will convert into longs
-      uBit.i2c.readRegister(MAX30105_ADDRESS, (uint8_t)MAX30105_FIFODATA, &temp[0], toGet);
+      while(toGet > 0)
+	  {
+		uint8_t temp[9] = 0; //Array of 9 uint8_ts that we will convert into longs
+        uint32_t tempLong;
+		uBit.i2c.readRegister(MAX30105_ADDRESS, (uint8_t)MAX30105_FIFODATA, &temp[0], toGet);
+		toGet -= activeDiodes * 3;
+        sense.head++; //Advance the head of the storage struct
+        sense.head %= STORAGE_SIZE; //Wrap condition
+		for (int led = 0; led < activeDiodes)
+		{
+			memcpy(&tempLong, temp[led * 3], sizeof(tempLong) - 1); //tempLong is 4 bytes, we only need 3
+			tempLong &= 0x3FFFF
+			switch (led)
+			{
+				case 0:
+					sense.red[sense.head] = tempLong; //Store this reading into the sense array
+					break;
+				case 1:
+					sense.IR[sense.head] = tempLong;
+					break;
+				case 2:
+					sense.green[sense.head] = tempLong;
+					break;
+			}
+		}
+	  }
       bytesLeftToRead -= toGet;
-      toGet -= activeDiodes * 3;
       /*while (toGet > 0)
       {
         sense.head++; //Advance the head of the storage struct

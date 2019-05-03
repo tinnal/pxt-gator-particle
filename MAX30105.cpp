@@ -454,7 +454,7 @@ void MAX30105::setup(uint8_t powerLevel, uint8_t sampleAverage, uint8_t ledMode,
   if (ledMode == 3) setLEDMode(MAX30105_MODE_MULTILED); //Watch all three LED channels
   else if (ledMode == 2) setLEDMode(MAX30105_MODE_REDIRONLY); //Red and IR
   else setLEDMode(MAX30105_MODE_REDONLY); //Red only
-  //activeLEDs = ledMode; //Used to control how many uint8_ts to read from FIFO buffer
+  //activeDiodes = ledMode; //Used to control how many uint8_ts to read from FIFO buffer
   //-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 
   //Particle Sensing Configuration
@@ -606,7 +606,7 @@ uint16_t MAX30105::check(void)
 
     //We now have the number of readings, now calc uint8_ts to read
     //For this example we are just doing Red and IR (3 uint8_ts each)
-    uint8_t bytesLeftToRead = numberOfSamples * activeLEDs * 3;
+    uint8_t bytesLeftToRead = numberOfSamples * activeDiodes * 3;
 
     //Get ready to read a burst of data from the FIFO register
 
@@ -623,16 +623,16 @@ uint16_t MAX30105::check(void)
         //32 % 6 = 2 left over. We don't want to request 32 uint8_ts, we want to request 30.
         //32 % 9 (Red+IR+GREEN) = 5 left over. We want to request 27.
 
-        toGet = I2C_BUFFER_LENGTH - (I2C_BUFFER_LENGTH % (activeLEDs * 3)); //Trim toGet to be a multiple of the samples we need to read
+        toGet = I2C_BUFFER_LENGTH - (I2C_BUFFER_LENGTH % (activeDiodes * 3)); //Trim toGet to be a multiple of the samples we need to read
       }
 
 
       //Request toGet number of uint8_ts from sensor
       //uBit.i2c.requestFrom(MAX30105_ADDRESS, toGet);
       uint8_t temp[32]; //Array of 32 uint8_ts that we will convert into longs
-      uBit.i2c.readRegister(MAX30105_ADDRESS, (uint8_t)MAX30105_FIFODATA, &temp[0], activeLEDs);
+      uBit.i2c.readRegister(MAX30105_ADDRESS, (uint8_t)MAX30105_FIFODATA, &temp[0], activeDiodes);
       bytesLeftToRead -= toGet;
-      toGet -= activeLEDs * 3;
+      toGet -= activeDiodes * 3;
       /*while (toGet > 0)
       {
         sense.head++; //Advance the head of the storage struct
@@ -649,7 +649,7 @@ uint16_t MAX30105::check(void)
 
         sense.red[sense.head] = tempLong; //Store this reading into the sense array
 
-        if (activeLEDs > 1)
+        if (activeDiodes > 1)
         {
           //Burst read three more uint8_ts - IR
           temp[3] = 0;
@@ -664,7 +664,7 @@ uint16_t MAX30105::check(void)
 		  sense.IR[sense.head] = tempLong;
         }
 
-        if (activeLEDs > 2)
+        if (activeDiodes > 2)
         {
           //Burst read three more uint8_ts - Green
           temp[3] = 0;

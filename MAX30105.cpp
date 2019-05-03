@@ -454,7 +454,7 @@ void MAX30105::setup(uint8_t powerLevel, uint8_t sampleAverage, uint8_t ledMode,
   if (ledMode == 3) setLEDMode(MAX30105_MODE_MULTILED); //Watch all three LED channels
   else if (ledMode == 2) setLEDMode(MAX30105_MODE_REDIRONLY); //Red and IR
   else setLEDMode(MAX30105_MODE_REDONLY); //Red only
-  activeLEDs = 3;//ledMode; //Used to control how many uint8_ts to read from FIFO buffer
+  activeLEDs = ledMode; //Used to control how many uint8_ts to read from FIFO buffer
   //-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 
   //Particle Sensing Configuration
@@ -606,7 +606,7 @@ uint16_t MAX30105::check(void)
 
     //We now have the number of readings, now calc uint8_ts to read
     //For this example we are just doing Red and IR (3 uint8_ts each)
-    uint8_t bytesLeftToRead = numberOfSamples * activeLEDs * 3;
+    uint8_t bytesLeftToRead = activeLEDs;//numberOfSamples * activeLEDs * 3;
 
     //Get ready to read a burst of data from the FIFO register
 
@@ -616,7 +616,7 @@ uint16_t MAX30105::check(void)
     //uBit.i2c.write(MAX30105_ADDRESS, &MAX30105_FIFODATA, 1, TRUE);
     while (bytesLeftToRead > 0)
     {
-      int toGet = bytesLeftToRead;
+      uint8_t toGet = bytesLeftToRead;
       if (toGet > I2C_BUFFER_LENGTH)
       {
         //If toGet is 32 this is bad because we read 6 uint8_ts (Red+IR * 3 = 6) at a time

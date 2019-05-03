@@ -630,7 +630,7 @@ uint16_t MAX30105::check(void)
       //Request toGet number of uint8_ts from sensor
       //uBit.i2c.requestFrom(MAX30105_ADDRESS, toGet);
       uint8_t temp[32]; //Array of 32 uint8_ts that we will convert into longs
-      uBit.i2c.readRegister(MAX30105_ADDRESS, (uint8_t)MAX30105_FIFODATA, &temp[0], toGet);
+      uBit.i2c.readRegister(MAX30105_ADDRESS, (uint8_t)MAX30105_FIFODATA, &temp[0], activeLEDs);
       bytesLeftToRead -= toGet;
       toGet -= activeLEDs * 3;
       /*while (toGet > 0)

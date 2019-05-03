@@ -625,6 +625,7 @@ uint16_t MAX30105::check(void)
       while(toGet > 0)
 	  {
 		uint8_t temp[9] = 0; //Array of 9 uint8_ts that we will convert into longs
+		uint8_t temp2[4];
         uint32_t tempLong;
 		uBit.i2c.readRegister(MAX30105_ADDRESS, (uint8_t)MAX30105_FIFODATA, &temp[0], toGet);
 		toGet -= activeDiodes * 3;
@@ -632,7 +633,12 @@ uint16_t MAX30105::check(void)
         sense.head %= STORAGE_SIZE; //Wrap condition
 		for (int led = 0; led < activeDiodes)
 		{
-			memcpy(&tempLong, temp[led * 3], sizeof(tempLong) - 1); //tempLong is 4 bytes, we only need 3
+			int offset = led * 3;
+			temp2[3] = 0;
+			temp2[2] = temp[2 + offset];
+			temp2[1] = temp[1 + offset];
+			temp2[0] = temp[offset];
+			memcpy(&tempLong, temp2, sizeof(tempLong)); //tempLong is 4 bytes, we only need 3
 			tempLong &= 0x3FFFF
 			switch (led)
 			{

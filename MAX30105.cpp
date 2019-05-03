@@ -454,7 +454,7 @@ void MAX30105::setup(uint8_t powerLevel, uint8_t sampleAverage, uint8_t ledMode,
   if (ledMode == 3) setLEDMode(MAX30105_MODE_MULTILED); //Watch all three LED channels
   else if (ledMode == 2) setLEDMode(MAX30105_MODE_REDIRONLY); //Red and IR
   else setLEDMode(MAX30105_MODE_REDONLY); //Red only
-  activeLEDs = ledMode; //Used to control how many uint8_ts to read from FIFO buffer
+  activeLEDs = 3;//ledMode; //Used to control how many uint8_ts to read from FIFO buffer
   //-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 
   //Particle Sensing Configuration
@@ -631,7 +631,7 @@ uint16_t MAX30105::check(void)
       //Request toGet number of uint8_ts from sensor
       //uBit.i2c.requestFrom(MAX30105_ADDRESS, toGet);
       uint8_t temp[32]; //Array of 32 uint8_ts that we will convert into longs
-      uBit.i2c.readRegister(MAX30105_ADDRESS, (uint8_t)MAX30105_FIFODATA, &temp[0], activeLEDs);
+      uBit.i2c.readRegister(MAX30105_ADDRESS, (uint8_t)MAX30105_FIFODATA, &temp[0], toGet);
       while (toGet > 0)
       {
         sense.head++; //Advance the head of the storage struct

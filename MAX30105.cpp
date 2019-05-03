@@ -626,20 +626,21 @@ uint16_t MAX30105::check(void)
         toGet = I2C_BUFFER_LENGTH - (I2C_BUFFER_LENGTH % (activeLEDs * 3)); //Trim toGet to be a multiple of the samples we need to read
       }
 
-      bytesLeftToRead -= toGet;
 
       //Request toGet number of uint8_ts from sensor
       //uBit.i2c.requestFrom(MAX30105_ADDRESS, toGet);
       uint8_t temp[32]; //Array of 32 uint8_ts that we will convert into longs
       uBit.i2c.readRegister(MAX30105_ADDRESS, (uint8_t)MAX30105_FIFODATA, &temp[0], toGet);
-      while (toGet > 0)
+      bytesLeftToRead -= toGet;
+      toGet -= activeLEDs * 3;
+      /*while (toGet > 0)
       {
         sense.head++; //Advance the head of the storage struct
         sense.head %= STORAGE_SIZE; //Wrap condition
 
         uint32_t tempLong;
 		//Burst read three uint8_ts - RED
-        /*temp[3] = 0;
+        temp[3] = 0;
         uBit.i2c.readRegister(MAX30105_ADDRESS, (char *)temp[2], 3, true);
         //Convert array to long
         memcpy(&tempLong, temp, sizeof(tempLong));
@@ -676,10 +677,9 @@ uint16_t MAX30105::check(void)
 		  tempLong &= 0x3FFFF; //Zero out all but 18 bits
 
           sense.green[sense.head] = tempLong;
-        }*/
+        }
 
-        toGet -= activeLEDs * 3;
-      }
+      }*/
 
     } //End while (bytesLeftToRead > 0)
 

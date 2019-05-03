@@ -102,7 +102,7 @@ class MAX30105 {
   uint8_t readPartID();  
 
   // Setup the IC with user selectable settings
-  void setup(uint8_t powerLevel = 0x1F, uint8_t sampleAverage = 4, uint8_t ledMode = 3, int sampleRate = 400, int pulseWidth = 411, int adcRange = 4096);
+  void setup(uint8_t powerLevel = 0x1F, uint8_t sampleAverage = 4, int ledMode = 3, int sampleRate = 400, int pulseWidth = 411, int adcRange = 4096);
 
   // Low-level I2C communication
   uint8_t readRegister8(uint8_t address, uint8_t reg);
@@ -112,8 +112,8 @@ class MAX30105 {
   MicroBitI2C *_i2cPort; //The generic connection to user's chosen I2C hardware
   uint8_t _i2caddr = 0xAE;
 
-  //activeLEDs is the number of channels turned on, and can be 1 to 3. 2 is common for Red+IR.
-  uint8_t activeLEDs = 3; //Gets set during setup. Allows check() to calculate how many bytes to read from FIFO
+  //activeDiodes is the number of channels turned on, and can be 1 to 3. 2 is common for Red+IR.
+  int activeDiodes = 3; //Gets set during setup. Allows check() to calculate how many bytes to read from FIFO
   
   uint8_t revisionID; 
 

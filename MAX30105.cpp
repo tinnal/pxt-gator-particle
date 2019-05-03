@@ -431,7 +431,7 @@ uint8_t MAX30105::getRevisionID() {
 // ADC Range = 16384 (62.5pA per LSB)
 // Sample rate = 50
 //Use the default setup if you are just getting started with the MAX30105 sensor
-void MAX30105::setup(uint8_t powerLevel, uint8_t sampleAverage, uint8_t ledMode, int sampleRate, int pulseWidth, int adcRange) {
+void MAX30105::setup(uint8_t powerLevel, uint8_t sampleAverage, int ledMode, int sampleRate, int pulseWidth, int adcRange) {
   softReset(); //Reset all configuration, threshold, and data registers to POR values
 
   //FIFO Configuration
@@ -454,7 +454,7 @@ void MAX30105::setup(uint8_t powerLevel, uint8_t sampleAverage, uint8_t ledMode,
   if (ledMode == 3) setLEDMode(MAX30105_MODE_MULTILED); //Watch all three LED channels
   else if (ledMode == 2) setLEDMode(MAX30105_MODE_REDIRONLY); //Red and IR
   else setLEDMode(MAX30105_MODE_REDONLY); //Red only
-  activeLEDs = 3;//ledMode; //Used to control how many uint8_ts to read from FIFO buffer
+  activeDiodes = 3;//ledMode; //Used to control how many uint8_ts to read from FIFO buffer
   //-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 
   //Particle Sensing Configuration
@@ -592,10 +592,10 @@ uint16_t MAX30105::check(void)
   //Read register FIDO_DATA in (3-uint8_t * number of active LED) chunks
   //Until FIFO_RD_PTR = FIFO_WR_PTR
 
-  uint8_t readPointer = getReadPointer();
-  uint8_t writePointer = getWritePointer();
+  int readPointer = getReadPointer();
+  int writePointer = getWritePointer();
 
-  uint8_t numberOfSamples = 0;
+  int numberOfSamples = 0;
 
   //Do we have new data?
   if (readPointer != writePointer)
@@ -605,7 +605,7 @@ uint16_t MAX30105::check(void)
     if (numberOfSamples < 0) numberOfSamples += I2C_BUFFER_LENGTH; //Wrap condition
     //We now have the number of readings, now calc uint8_ts to read
     //For this example we are just doing Red and IR (3 uint8_ts each)
-    uint8_t bytesLeftToRead = numberOfSamples;// * activeLEDs * 3;
+    int bytesLeftToRead = numberOfSamples;// * activeDiodes * 3;
 
     //Get ready to read a burst of data from the FIFO register
 
@@ -615,23 +615,23 @@ uint16_t MAX30105::check(void)
     //uBit.i2c.write(MAX30105_ADDRESS, &MAX30105_FIFODATA, 1, TRUE);
     while (bytesLeftToRead > 0)
     {
-      uint8_t toGet = bytesLeftToRead;
+      int toGet = bytesLeftToRead;
       if (toGet > I2C_BUFFER_LENGTH)
       {
         //If toGet is 32 this is bad because we read 6 uint8_ts (Red+IR * 3 = 6) at a time
         //32 % 6 = 2 left over. We don't want to request 32 uint8_ts, we want to request 30.
         //32 % 9 (Red+IR+GREEN) = 5 left over. We want to request 27.
 
-        //toGet = I2C_BUFFER_LENGTH - (I2C_BUFFER_LENGTH % (activeLEDs * 3)); //Trim toGet to be a multiple of the samples we need to read
+        //toGet = I2C_BUFFER_LENGTH - (I2C_BUFFER_LENGTH % (activeDiodes * 3)); //Trim toGet to be a multiple of the samples we need to read
       }
 
 
       //Request toGet number of uint8_ts from sensor
       //uBit.i2c.requestFrom(MAX30105_ADDRESS, toGet);
       uint8_t temp[32]; //Array of 32 uint8_ts that we will convert into longs
-      uBit.i2c.readRegister(MAX30105_ADDRESS, (uint8_t)MAX30105_FIFODATA, &temp[0], activeLEDs);
+      uBit.i2c.readRegister(MAX30105_ADDRESS, (uint8_t)MAX30105_FIFODATA, &temp[0], activeDiodes);
       bytesLeftToRead -= toGet;
-      //toGet -= activeLEDs * 3;
+      //toGet -= activeDiodes * 3;
       /*while (toGet > 0)
       {
         sense.head++; //Advance the head of the storage struct
@@ -648,7 +648,7 @@ uint16_t MAX30105::check(void)
 
         sense.red[sense.head] = tempLong; //Store this reading into the sense array
 
-        if (activeLEDs > 1)
+        if (activeDiodes > 1)
         {
           //Burst read three more uint8_ts - IR
           temp[3] = 0;
@@ -663,7 +663,7 @@ uint16_t MAX30105::check(void)
 		  sense.IR[sense.head] = tempLong;
         }
 
-        if (activeLEDs > 2)
+        if (activeDiodes > 2)
         {
           //Burst read three more uint8_ts - Green
           temp[3] = 0;

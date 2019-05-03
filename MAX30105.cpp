@@ -139,6 +139,8 @@ static const char SLOT_GREEN_PILOT = 		0x07;
 
 static const char MAX_30105_EXPECTEDPARTID = 0x15;
 
+uint8_t activeDiodes = 3; //Gets set during setup. Allows check() to calculate how many bytes to read from FIFO
+
 MAX30105::MAX30105() {
   // Constructor
 }
@@ -625,7 +627,6 @@ uint16_t MAX30105::check(void)
 
         toGet = I2C_BUFFER_LENGTH - (I2C_BUFFER_LENGTH % (activeDiodes * 3)); //Trim toGet to be a multiple of the samples we need to read
       }
-	activeDiodes = 7;
 
       //Request toGet number of uint8_ts from sensor
       //uBit.i2c.requestFrom(MAX30105_ADDRESS, toGet);

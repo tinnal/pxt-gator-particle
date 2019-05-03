@@ -113,7 +113,6 @@ class MAX30105 {
   uint8_t _i2caddr = 0xAE;
 
   //activeDiodes is the number of channels turned on, and can be 1 to 3. 2 is common for Red+IR.
-  uint8_t activeDiodes = 1; //Gets set during setup. Allows check() to calculate how many bytes to read from FIFO
   
   uint8_t revisionID; 
 

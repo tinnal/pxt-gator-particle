@@ -32,7 +32,7 @@ namespace gatorParticle {
 	bool begin()
 	{
 		bool status = particleSensor->begin(i2c);
-		particleSensor->setup(0x1F, 4, 3, 400, 411, 4096);
+		particleSensor->setup();
 		return status;
 	}
 	

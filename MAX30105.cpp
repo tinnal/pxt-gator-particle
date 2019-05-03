@@ -603,7 +603,7 @@ uint16_t MAX30105::check(void)
     //Calculate the number of readings we need to get from sensor
     numberOfSamples = writePointer - readPointer;
     if (numberOfSamples < 0) numberOfSamples += I2C_BUFFER_LENGTH; //Wrap condition
-
+	activeLEDs = 3;
     //We now have the number of readings, now calc uint8_ts to read
     //For this example we are just doing Red and IR (3 uint8_ts each)
     uint8_t bytesLeftToRead = activeLEDs;//numberOfSamples * activeLEDs * 3;

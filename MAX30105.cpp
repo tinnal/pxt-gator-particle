@@ -606,7 +606,7 @@ uint16_t MAX30105::check(void)
 
     //We now have the number of readings, now calc uint8_ts to read
     //For this example we are just doing Red and IR (3 uint8_ts each)
-    uint8_t bytesLeftToRead = activeLEDs;//numberOfSamples * activeLEDs * 3;
+    uint8_t bytesLeftToRead = numberOfSamples * activeLEDs * 3;
 
     //Get ready to read a burst of data from the FIFO register
 

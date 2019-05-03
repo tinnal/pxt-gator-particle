@@ -72,16 +72,16 @@ namespace gatorParticle {
 	*/
 	//% shim=gatorParticle::getRedValue
 	function getRedValue(): number{
-		return getRedValue();
+		return getRedValue()
 	}
 	
 	//% shim=gatorParticle::getInfraredValue
 	function getInfraredValue(): number{
-		return getInfraredValue();
+		return getInfraredValue()
 	}
 	
 	//% shim=gatorParticle::getGreenValue
 	function getGreenValue(): number{
-		return getGreenValue();
+		return getGreenValue()
 	}
 }

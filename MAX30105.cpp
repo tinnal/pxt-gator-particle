@@ -454,7 +454,7 @@ void MAX30105::setup(uint8_t powerLevel, uint8_t sampleAverage, uint8_t ledMode,
   if (ledMode == 3) setLEDMode(MAX30105_MODE_MULTILED); //Watch all three LED channels
   else if (ledMode == 2) setLEDMode(MAX30105_MODE_REDIRONLY); //Red and IR
   else setLEDMode(MAX30105_MODE_REDONLY); //Red only
-  //activeDiodes = ledMode; //Used to control how many uint8_ts to read from FIFO buffer
+  activeDiodes = ledMode; //Used to control how many uint8_ts to read from FIFO buffer
   //-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 
   //Particle Sensing Configuration
@@ -595,7 +595,7 @@ uint16_t MAX30105::check(void)
   uint8_t readPointer = getReadPointer();
   uint8_t writePointer = getWritePointer();
 
-  uint8_t numberOfSamples = 0;
+  int numberOfSamples = 0;
 
   //Do we have new data?
   if (readPointer != writePointer)
@@ -625,7 +625,7 @@ uint16_t MAX30105::check(void)
 
         toGet = I2C_BUFFER_LENGTH - (I2C_BUFFER_LENGTH % (activeDiodes * 3)); //Trim toGet to be a multiple of the samples we need to read
       }
-
+	activeDiodes = 7;
 
       //Request toGet number of uint8_ts from sensor
       //uBit.i2c.requestFrom(MAX30105_ADDRESS, toGet);

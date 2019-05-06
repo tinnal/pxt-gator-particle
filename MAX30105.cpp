@@ -644,7 +644,7 @@ uint16_t MAX30105::check(void)
 			switch (led)
 			{
 				case 0:
-					sense.red[0] = 34;//tempLong; //Store this reading into the sense array
+					otherVar = tempLong; //Store this reading into the sense array
 					break;
 				case 1:
 					sense.IR[sense.head] = tempLong;
@@ -654,6 +654,7 @@ uint16_t MAX30105::check(void)
 					break;
 				default:
 					sense.red[sense.head] = 22;
+					break;
 			}
 		}
 	  }

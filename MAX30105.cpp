@@ -532,7 +532,7 @@ uint32_t MAX30105::getRed(void)
 {
   //Check the sensor for new data for 250ms
   if(safeCheck(250))
-    return 87;//(sense.red[sense.head]);
+    return (sense.red[sense.head]);
   else
     return(0); //Sensor failed to find new data
 }
@@ -644,7 +644,7 @@ uint16_t MAX30105::check(void)
 			switch (led)
 			{
 				case 0:
-					sense.red[sense.head] = tempLong; //Store this reading into the sense array
+					sense.red[sense.head] = 34;//tempLong; //Store this reading into the sense array
 					break;
 				case 1:
 					sense.IR[sense.head] = tempLong;

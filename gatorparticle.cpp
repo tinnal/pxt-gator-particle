@@ -40,7 +40,7 @@ namespace gatorParticle {
 	* Returns the red value
 	*/
 	//%
-	uint32_t getRedValue()
+	float getRedValue()
 	{
 		return particleSensor->getRed();
 	}
@@ -49,7 +49,7 @@ namespace gatorParticle {
 	* Returns the infrared value
 	*/
 	//%
-	uint32_t getInfraredValue()
+	float getInfraredValue()
 	{
 		return particleSensor->getIR();
 	}
@@ -58,7 +58,7 @@ namespace gatorParticle {
 	* Returns the green value
 	*/
 	//%
-	uint32_t getGreenValue()
+	float getGreenValue()
 	{
 		return particleSensor->getGreen();
 	}

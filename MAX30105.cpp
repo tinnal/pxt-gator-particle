@@ -652,6 +652,8 @@ uint16_t MAX30105::check(void)
 				case 2:
 					sense.green[sense.head] = tempLong;
 					break;
+				default:
+					sense.red[sense.head] = 22;
 			}
 		}
 	  }

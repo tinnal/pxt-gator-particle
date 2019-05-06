@@ -655,53 +655,6 @@ uint16_t MAX30105::check(void)
 		}
 	  }
       bytesLeftToRead -= toGet;
-      /*while (toGet > 0)
-      {
-        sense.head++; //Advance the head of the storage struct
-        sense.head %= STORAGE_SIZE; //Wrap condition
-
-        uint32_t tempLong;
-		//Burst read three uint8_ts - RED
-        temp[3] = 0;
-        uBit.i2c.readRegister(MAX30105_ADDRESS, (char *)temp[2], 3, true);
-        //Convert array to long
-        memcpy(&tempLong, temp, sizeof(tempLong));
-		
-		tempLong &= 0x3FFFF; //Zero out all but 18 bits
-
-        sense.red[sense.head] = tempLong; //Store this reading into the sense array
-
-        if (activeDiodes > 1)
-        {
-          //Burst read three more uint8_ts - IR
-          temp[3] = 0;
-          uBit.i2c.read(MAX30105_ADDRESS, (char *)temp[2], 1, true);
-          uBit.i2c.read(MAX30105_ADDRESS, (char *)temp[1], 1, true);
-          uBit.i2c.read(MAX30105_ADDRESS, (char *)temp[0], 1, true);
-          //Convert array to long
-          memcpy(&tempLong, temp, sizeof(tempLong));
-
-		  tempLong &= 0x3FFFF; //Zero out all but 18 bits
-          
-		  sense.IR[sense.head] = tempLong;
-        }
-
-        if (activeDiodes > 2)
-        {
-          //Burst read three more uint8_ts - Green
-          temp[3] = 0;
-          uBit.i2c.read(MAX30105_ADDRESS, (char *)temp[2], 1, true);
-          uBit.i2c.read(MAX30105_ADDRESS, (char *)temp[1], 1, true);
-          uBit.i2c.read(MAX30105_ADDRESS, (char *)temp[0], 1, true);
-          //Convert array to long
-          memcpy(&tempLong, temp, sizeof(tempLong));
-
-		  tempLong &= 0x3FFFF; //Zero out all but 18 bits
-
-          sense.green[sense.head] = tempLong;
-        }
-
-      }*/
 
     } //End while (bytesLeftToRead > 0)
 

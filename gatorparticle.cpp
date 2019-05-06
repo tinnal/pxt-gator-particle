@@ -42,8 +42,7 @@ namespace gatorParticle {
 	//%
 	uint32_t getRedValue()
 	{
-		uint32_t temp = particleSensor->getRed();
-		return temp;
+		return particleSensor->getRed();
 	}
 	
 	/*

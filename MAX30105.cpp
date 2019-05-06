@@ -628,6 +628,7 @@ uint16_t MAX30105::check(void)
 		uint8_t temp2[4];
         uint32_t tempLong;
 		uBit.i2c.readRegister(MAX30105_ADDRESS, (uint8_t)MAX30105_FIFODATA, &temp[0], toGet);
+		bytesLeftToRead -= toGet;
 		toGet -= activeDiodes * 3;
         sense.head++; //Advance the head of the storage struct
         sense.head %= STORAGE_SIZE; //Wrap condition
@@ -654,7 +655,6 @@ uint16_t MAX30105::check(void)
 			}
 		}
 	  }
-      bytesLeftToRead -= toGet;
 
     } //End while (bytesLeftToRead > 0)
 

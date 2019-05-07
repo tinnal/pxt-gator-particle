@@ -532,8 +532,7 @@ uint32_t MAX30105::getRed(void)
 {
   //Check the sensor for new data for 250ms
   if(safeCheck(250)){
-	otherVar = 28;
-    return otherVar;
+    return (sense.red[sense.head]);
   }
   else
     return(0); //Sensor failed to find new data
@@ -630,8 +629,6 @@ uint16_t MAX30105::check(void)
 		uint8_t temp2[4];
         uint32_t tempLong;
 		uBit.i2c.readRegister(MAX30105_ADDRESS, (uint8_t)MAX30105_FIFODATA, &temp[0], toGet);
-		bytesLeftToRead -= toGet;
-		toGet -= activeDiodes * 3;
         sense.head++; //Advance the head of the storage struct
         sense.head %= STORAGE_SIZE; //Wrap condition
 		for (int led = 0; led < activeDiodes; led++)
@@ -643,7 +640,6 @@ uint16_t MAX30105::check(void)
 			temp2[0] = temp[offset];
 			memcpy(&tempLong, temp2, sizeof(tempLong)); //tempLong is 4 bytes, we only need 3
 			tempLong &= 0x3FFFF;
-			otherVar = 2202;
 			switch (led)
 			{
 				case 0:
@@ -660,12 +656,11 @@ uint16_t MAX30105::check(void)
 					break;
 			}
 		}
+		bytesLeftToRead -= toGet;
+		toGet -= activeDiodes * 3;
 	  }
-
     } //End while (bytesLeftToRead > 0)
-
   } //End readPtr != writePtr
-
   return (numberOfSamples); //Let the world know how much new data we found
 }
 

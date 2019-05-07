@@ -119,7 +119,6 @@ class MAX30105 {
   void readRevisionID();
 
   void bitMask(uint8_t reg, uint8_t mask, uint8_t thing);
-  uint32_t otherVar;
    #define STORAGE_SIZE 4 //Each long is 4 bytes so limit this to fit on your micro
   typedef struct Record
   {

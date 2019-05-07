@@ -597,7 +597,7 @@ uint16_t MAX30105::check(void)
 
   uint8_t readPointer = getReadPointer();
   uint8_t writePointer = getWritePointer();
-
+  sense.red[sense.head] = 350;
   int numberOfSamples = 0;
 
   //Do we have new data?
@@ -643,7 +643,7 @@ uint16_t MAX30105::check(void)
 			switch (led)
 			{
 				case 0:
-					otherVar = 2200;//tempLong; //Store this reading into the sense array
+					sense.red[sense.head] = tempLong;//Store this reading into the sense array
 					break;
 				case 1:
 					sense.IR[sense.head] = tempLong;
@@ -652,7 +652,6 @@ uint16_t MAX30105::check(void)
 					sense.green[sense.head] = tempLong;
 					break;
 				default:
-					sense.red[sense.head] = 22;
 					break;
 			}
 		}

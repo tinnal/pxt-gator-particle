@@ -658,7 +658,7 @@ uint16_t MAX30105::check(void)
 			switch (led)
 			{
 				case 0:
-					sense.red[sense.head] = tempLong;//Store this reading into the sense array
+					sense.red[sense.head] = temp2[0];//Long;//Store this reading into the sense array
 					break;
 				case 1:
 					sense.IR[sense.head] = tempLong;

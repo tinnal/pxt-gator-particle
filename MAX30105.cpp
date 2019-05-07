@@ -643,7 +643,7 @@ uint16_t MAX30105::check(void)
 		uint8_t temp[9]; //Array of 9 uint8_ts that we will convert into longs
 		uint8_t temp2[4];
         uint32_t tempLong;
-		uBit.i2c.readRegister(MAX30105_ADDRESS, (uint8_t)MAX30105_FIFODATA, &temp[0], toGet);
+		uBit.i2c.readRegister(MAX30105_ADDRESS, (uint8_t)MAX30105_FIFODATA, temp, toGet);
         sense.head++; //Advance the head of the storage struct
         sense.head %= STORAGE_SIZE; //Wrap condition
 		for (int led = 0; led < activeDiodes; led++)

@@ -531,8 +531,10 @@ uint8_t MAX30105::available(void)
 uint32_t MAX30105::getRed(void)
 {
   //Check the sensor for new data for 250ms
-  if(safeCheck(250))
+  if(safeCheck(250)){
+	otherVar = 28;
     return otherVar;
+  }
   else
     return(0); //Sensor failed to find new data
 }

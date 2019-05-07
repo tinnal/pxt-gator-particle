@@ -673,7 +673,7 @@ bool MAX30105::safeCheck(uint8_t maxTimeToCheck)
 {
   uint32_t markTime = uBit.systemTime();
   
-  sense.red[0] = 354;
+  //sense.red[0] = 354;
   while(1)
   {
 	if(uBit.systemTime() - markTime > maxTimeToCheck){

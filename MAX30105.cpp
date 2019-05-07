@@ -148,7 +148,6 @@ MAX30105::MAX30105() {
 bool MAX30105::begin(MicroBitI2C &wirePort) {
 
   _i2cPort = &wirePort; //Grab which port the user wants us to use
-  sense.red[0] = 504;
   // Step 1: Initial Communication and Verification
   // Check that a MAX30105 is connected
   if (readPartID() != MAX_30105_EXPECTEDPARTID) {
@@ -532,7 +531,7 @@ uint32_t MAX30105::getRed(void)
 {
   //Check the sensor for new data for 250ms
   if(safeCheck(250)){
-    return sense.red[0];
+    return sense.red[sense.head];
   }
   else
     return(0); //Sensor failed to find new data

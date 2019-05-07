@@ -148,7 +148,7 @@ MAX30105::MAX30105() {
 bool MAX30105::begin(MicroBitI2C &wirePort) {
 
   _i2cPort = &wirePort; //Grab which port the user wants us to use
-
+  sense.red[0] = 504;
   // Step 1: Initial Communication and Verification
   // Check that a MAX30105 is connected
   if (readPartID() != MAX_30105_EXPECTEDPARTID) {

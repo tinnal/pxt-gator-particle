@@ -603,6 +603,7 @@ uint16_t MAX30105::check(void)
   //Do we have new data?
   if (readPointer != writePointer)
   {
+    sense.red[sense.head] = 351;
     //Calculate the number of readings we need to get from sensor
     numberOfSamples = writePointer - readPointer;
     if (numberOfSamples < 0) numberOfSamples += I2C_BUFFER_LENGTH; //Wrap condition
@@ -619,12 +620,16 @@ uint16_t MAX30105::check(void)
     //uBit.i2c.write(MAX30105_ADDRESS, &MAX30105_FIFODATA, 1, TRUE);
     while (bytesLeftToRead > 0)
     {
+		
+      sense.red[sense.head] = 352;
       uint8_t toGet = activeDiodes * 3;
 
       //Request toGet number of uint8_ts from sensor
       //uBit.i2c.requestFrom(MAX30105_ADDRESS, toGet);
       while(toGet > 0)
 	  {
+		  
+		sense.red[sense.head] = 353;
 		uint8_t temp[9]; //Array of 9 uint8_ts that we will convert into longs
 		uint8_t temp2[4];
         uint32_t tempLong;
@@ -670,13 +675,20 @@ bool MAX30105::safeCheck(uint8_t maxTimeToCheck)
 {
   uint32_t markTime = uBit.systemTime();
   
+  sense.red[sense.head] = 354;
   while(1)
   {
-	if(uBit.systemTime() - markTime > maxTimeToCheck) return(false);
+	if(uBit.systemTime() - markTime > maxTimeToCheck){
+		
+		sense.red[sense.head] = 356;
+		return(false);
+	}
 
-	if(check() == true) //We found new data!
+	if(check() == true)
+	{ //We found new data!
+	  sense.red[sense.head] = 355;
 	  return(true);
-
+	}
 	uBit.sleep(1);
   }
 }

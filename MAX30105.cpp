@@ -532,7 +532,7 @@ uint32_t MAX30105::getRed(void)
 {
   //Check the sensor for new data for 250ms
   if(safeCheck(250))
-    return (otherVar);
+    return otherVar;
   else
     return(0); //Sensor failed to find new data
 }
@@ -641,6 +641,7 @@ uint16_t MAX30105::check(void)
 			temp2[0] = temp[offset];
 			memcpy(&tempLong, temp2, sizeof(tempLong)); //tempLong is 4 bytes, we only need 3
 			tempLong &= 0x3FFFF;
+			otherVar = 2202;
 			switch (led)
 			{
 				case 0:

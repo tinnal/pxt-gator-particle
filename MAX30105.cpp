@@ -649,16 +649,16 @@ uint16_t MAX30105::check(void)
 		for (int led = 0; led < activeDiodes; led++)
 		{
 			uint8_t offset = led * 3;
-			temp2[3] = 0;
-			temp2[2] = temp[2 + offset];
-			temp2[1] = temp[1 + offset];
-			temp2[0] = temp[offset];
+			temp2[0] = 0;
+			temp2[1] = temp[2 + offset];
+			temp2[2] = temp[1 + offset];
+			temp2[3] = temp[offset];
 			memcpy(&tempLong, temp2, sizeof(tempLong)); //tempLong is 4 bytes, we only need 3
 			tempLong &= 0x3FFFF;
 			switch (led)
 			{
 				case 0:
-					sense.red[sense.head] = temp2[0];//Long;//Store this reading into the sense array
+					sense.red[sense.head] = tempLong;//Store this reading into the sense array
 					break;
 				case 1:
 					sense.IR[sense.head] = tempLong;

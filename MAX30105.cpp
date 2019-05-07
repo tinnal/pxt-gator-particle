@@ -141,6 +141,17 @@ static const char MAX_30105_EXPECTEDPARTID = 0x15;
 
 uint8_t activeDiodes = 3; //Gets set during setup. Allows check() to calculate how many bytes to read from FIFO
 
+typedef struct Record
+{
+  uint32_t red[STORAGE_SIZE];
+  uint32_t IR[STORAGE_SIZE];
+  uint32_t green[STORAGE_SIZE];
+  uint8_t head;
+  uint8_t tail;
+} sense_struct; //This is our circular buffer of readings from the sensor
+
+sense_struct sense;
+
 MAX30105::MAX30105() {
   // Constructor
 }

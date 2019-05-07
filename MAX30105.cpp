@@ -532,8 +532,7 @@ uint32_t MAX30105::getRed(void)
 {
   //Check the sensor for new data for 250ms
   if(safeCheck(250)){
-	  sense.red[sense.head] = 500;
-    return (sense.red[sense.head]);
+    return (sense.red[0]);
   }
   else
     return(0); //Sensor failed to find new data
@@ -598,13 +597,13 @@ uint16_t MAX30105::check(void)
 
   uint8_t readPointer = getReadPointer();
   uint8_t writePointer = getWritePointer();
-  sense.red[sense.head] = 350;
+  sense.red[0] = 350;
   int numberOfSamples = 0;
 
   //Do we have new data?
   if (readPointer != writePointer)
   {
-    sense.red[sense.head] = 351;
+    sense.red[0] = 351;
     //Calculate the number of readings we need to get from sensor
     numberOfSamples = writePointer - readPointer;
     if (numberOfSamples < 0) numberOfSamples += I2C_BUFFER_LENGTH; //Wrap condition
@@ -620,7 +619,7 @@ uint16_t MAX30105::check(void)
     while (bytesLeftToRead > 0)
     {
 		
-      sense.red[sense.head] = 352;
+      sense.red[0] = 352;
       uint8_t toGet = activeDiodes * 3;
 
       //Request toGet number of uint8_ts from sensor
@@ -628,7 +627,7 @@ uint16_t MAX30105::check(void)
       while(toGet > 0)
 	  {
 		  
-		sense.red[sense.head] = 353;
+		sense.red[0] = 353;
 		uint8_t temp[9]; //Array of 9 uint8_ts that we will convert into longs
 		uint8_t temp2[4];
         uint32_t tempLong;
@@ -647,7 +646,7 @@ uint16_t MAX30105::check(void)
 			switch (led)
 			{
 				case 0:
-					sense.red[sense.head] = tempLong;//Store this reading into the sense array
+					sense.red[1] = tempLong;//Store this reading into the sense array
 					break;
 				case 1:
 					sense.IR[sense.head] = tempLong;
@@ -674,7 +673,7 @@ bool MAX30105::safeCheck(uint8_t maxTimeToCheck)
 {
   uint32_t markTime = uBit.systemTime();
   
-  sense.red[sense.head] = 354;
+  sense.red[0] = 354;
   while(1)
   {
 	if(uBit.systemTime() - markTime > maxTimeToCheck){
@@ -685,7 +684,7 @@ bool MAX30105::safeCheck(uint8_t maxTimeToCheck)
 
 	if(check() == true)
 	{ //We found new data!
-	  sense.red[sense.head] = 355;
+	  sense.red[0] = 355;
 	  return(true);
 	}
 	uBit.sleep(1);

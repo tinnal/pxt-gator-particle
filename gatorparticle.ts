@@ -80,7 +80,6 @@ namespace gatorParticle {
 	//% weight=28
 	//% blockId="gatorParticle_amplitude"
 	//% block="Change brightness of %ledToRead | to %ledBrightness"
-	//% shim=gatorParticle::setAmplitude
 	export function amplitude(type: ledToRead, brightness: ledBrightness){
 		let myBrightness: number = 31
 		switch(brightness){

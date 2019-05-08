@@ -55,21 +55,13 @@ namespace gatorParticle {
 	}
 	
 	/*
-	* Returns the green value
-	*/
-	//%
-	uint32_t getGreenValue()
-	{
-		return particleSensor->getGreen();
-	}
-	
-	/*
 	* Sets the Red Amplitude
 	*/
 	//%
 	void setRedAmplitude(uint8_t brightness)
 	{
 		particleSensor->setPulseAmplitudeRed(brightness);
+		return;
 	}
 	
 	/*
@@ -79,16 +71,6 @@ namespace gatorParticle {
 	void setInfraredAmplitude(uint8_t brightness)
 	{
 		particleSensor->setPulseAmplitudeIR(brightness);
+		return;
 	}
-	
-	/*
-	* Sets the Red Amplitude
-	*/
-	//%
-	void setGreenAmplitude(uint8_t brightness)
-	{
-		particleSensor->setPulseAmplitudeGreen(brightness);
-	}
-	
-	
 }

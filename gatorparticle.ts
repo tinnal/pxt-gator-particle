@@ -20,7 +20,6 @@
  enum ledToRead{
 	 red=1,
 	 infrared=2,
-	 green=3,
  } 
  
  enum gatorDetectionType{
@@ -55,9 +54,7 @@ namespace gatorParticle {
 	export function begin(): boolean{
 		return true;
 	}
-	
-
-	
+		
 	/**
 	* Reads the number
 	*/
@@ -68,7 +65,6 @@ namespace gatorParticle {
 		switch(type){
 			case ledToRead.red: return getRedValue()
 			case ledToRead.infrared: return getInfraredValue()
-			case ledToRead.green: return getGreenValue()
 		}
 	}
 	
@@ -80,7 +76,6 @@ namespace gatorParticle {
 		switch(type){
 			case ledToRead.red: return true
 			case ledToRead.infrared: return true
-			case ledToRead.green: return true
 		}
 	}
 	
@@ -91,7 +86,6 @@ namespace gatorParticle {
 		switch(ledType){
 			case ledToRead.red: setRedAmplitude(brightness)
 			case ledToRead.infrared: setInfraredAmplitude(brightness)
-			case ledToRead.green: setGreenAmplitude(brightness)
 		}
 	}
 	
@@ -109,12 +103,6 @@ namespace gatorParticle {
 	{
 		return 0
 	}
-	
-	//% shim=gatorParticle::getGreenValue
-	function getGreenValue()
-	{
-		return 0
-	}
 
 	//% shim=gatorParticle::setRedAmplitude
 	function setRedAmplitude(brightness: number)
@@ -124,12 +112,6 @@ namespace gatorParticle {
 	
 	//% shim=gatorParticle::setInfraredAmplitude
 	function setInfraredAmplitude(brightness: number)
-	{
-		return 0
-	}
-	
-	//% shim=gatorParticle::setGreenAmplitude
-	function setGreenAmplitude(brightness: number)
 	{
 		return 0
 	}

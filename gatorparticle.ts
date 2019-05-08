@@ -36,11 +36,11 @@
   //powerLevel = 0xFF, 50.0mA - Presence detection of ~12 inch
  
  enum ledBrightness{
-	 off=0x00,
-	 low=0x02,
-	 mid=0x1F,
-	 high=0x7F,
-	 max=0xFF,  
+	 off=1,
+	 low=2,
+	 mid=3,
+	 high=4,
+	 max=5,  
  }
 
 //% color=#f44242 icon="\uf185"

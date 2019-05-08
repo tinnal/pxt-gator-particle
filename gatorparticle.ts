@@ -91,14 +91,6 @@ namespace gatorParticle {
 			case ledBrightness.high: myBrightness = 127
 			case ledBrightness.max: myBrightness = 255
 		}
-		if (type == ledToRead.red)
-		{
-			setRedAmplitude(myBrightness)
-		}
-		else
-		{
-			setInfraredAmplitude(myBrightness)
-		}
 	}
 	
 	/**

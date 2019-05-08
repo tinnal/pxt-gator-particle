@@ -82,7 +82,7 @@ namespace gatorParticle {
 	//% weight=28
 	//% blockId="gatorParticle_settings"
 	//% block="Change brightness of %ledToRead | to %ledBrightness"
-	export function settings(ledType: ledToRead, brightness: ledBrightness){
+	export function settings(type: ledToRead, brightness: ledBrightness){
 		let myBrightness = 31
 		switch(brightness){
 			case ledBrightness.off: myBrightness = 0
@@ -91,7 +91,7 @@ namespace gatorParticle {
 			case ledBrightness.high: myBrightness = 127
 			case ledBrightness.max: myBrightness = 255
 		}
-		switch(ledType){
+		switch(type){
 			case ledToRead.red: setRedAmplitude(myBrightness)
 			case ledToRead.infrared: setInfraredAmplitude(myBrightness)
 		}

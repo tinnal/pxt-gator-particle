@@ -64,7 +64,7 @@ namespace gatorParticle {
 	}
 	
 	/*
-	* Sets the Green Amplitude
+	* Sets the IR Amplitude
 	*/
 	//%
 	void setInfraredAmplitude(uint8_t brightness)

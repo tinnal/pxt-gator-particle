@@ -57,6 +57,24 @@ namespace gatorParticle {
 	//%
 	void setAmplitude(uint8_t led, uint8_t myBrightness)
 	{
+		switch(myBrightness)
+		{
+			case 1:
+				myBrightness = 0;
+				break;
+			case 2:
+				myBrightness = 2;
+				break;
+			case 3:
+				myBrightness = 31;
+				break;
+			case 4:
+				myBrightness = 127;
+				break;
+			case 5:
+				myBrightness = 255;
+				break;
+		}
 		switch(led)
 		{
 			case 1:

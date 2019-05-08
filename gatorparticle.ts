@@ -78,10 +78,10 @@ namespace gatorParticle {
 	}
 	
 	//% weight=28
-	//% blockId="gatorParticle_setAmplitude"
+	//% blockId="gatorParticle_amplitude"
 	//% block="Change brightness of %ledToRead | to %ledBrightness"
 	//% shim=gatorParticle::setAmplitude
-	export function setAmplitude(type: ledToRead, brightness: ledBrightness){
+	export function amplitude(type: ledToRead, brightness: ledBrightness){
 		let myBrightness: number = 31
 		switch(brightness){
 			case ledBrightness.off: myBrightness = 0
@@ -96,6 +96,13 @@ namespace gatorParticle {
 	/**
 	* Functions used for simulator, actual implementations are in gatorparticle.cpp
 	*/
+	
+	//% shim=gatorParticle::setAmplitude
+	function setAmplitude(led: number, myBrightness: number)
+	{
+		setAmplitude(led, myBrightness)
+	}
+	
 	//% shim=gatorParticle::getRedValue
 	function getRedValue()
 	{

@@ -85,15 +85,29 @@ namespace gatorParticle {
 	export function settings(type: ledToRead, brightness: ledBrightness){
 		let myBrightness = 31
 		switch(brightness){
-			case ledBrightness.off: myBrightness = 0
-			case ledBrightness.low: myBrightness = 2
-			case ledBrightness.mid: myBrightness = 31
-			case ledBrightness.high: myBrightness = 127
-			case ledBrightness.max: myBrightness = 255
+			case ledBrightness.off: 
+				myBrightness = 0;
+				break;
+			case ledBrightness.low: 
+				myBrightness = 2;
+				break;
+			case ledBrightness.mid: 
+				myBrightness = 31;
+				break;
+			case ledBrightness.high: 
+				myBrightness = 127;
+				break;
+			case ledBrightness.max: 
+				myBrightness = 255;
+				break;
 		}
 		switch(type){
-			case ledToRead.red: setRedAmplitude(myBrightness)
-			case ledToRead.infrared: setInfraredAmplitude(myBrightness)
+			case ledToRead.red: 
+				setRedAmplitude(myBrightness);
+				break;
+			case ledToRead.infrared: 
+				setInfraredAmplitude(myBrightness);
+				break;
 		}
 	}
 	

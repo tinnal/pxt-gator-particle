@@ -91,6 +91,7 @@ namespace gatorParticle {
 			case ledBrightness.high: myBrightness = 127
 			case ledBrightness.max: myBrightness = 255
 		}
+		setRedAmplitude(0)
 	}
 	
 	/**
@@ -111,12 +112,12 @@ namespace gatorParticle {
 	//% shim=gatorParticle::setRedAmplitude
 	function setRedAmplitude(myBrightness: number)
 	{
-		return 0
+
 	}
 	
 	//% shim=gatorParticle::setInfraredAmplitude
 	function setInfraredAmplitude(myBrightness: number)
 	{
-		return 0
+
 	}
 }

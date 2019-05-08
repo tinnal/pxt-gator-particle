@@ -28,6 +28,7 @@
 	 smoke=3,
  }
  
+ 
   //Default is 0x1F which gets us 6.4mA
   //powerLevel = 0x02, 0.4mA - Presence detection of ~4 inch
   //powerLevel = 0x1F, 6.4mA - Presence detection of ~8 inch
@@ -79,29 +80,16 @@ namespace gatorParticle {
 	
 	//% weight=28
 	//% blockId="gatorParticle_amplitude"
-	//% block="Change brightness of %ledToRead | to %ledBrightness"
-	export function amplitude(type: ledToRead, brightness: ledBrightness){
-		let myBrightness: number = 31
-		switch(brightness){
-			case ledBrightness.off: myBrightness = 0
-			case ledBrightness.low: myBrightness = 2
-			case ledBrightness.mid: myBrightness = 31
-			case ledBrightness.high: myBrightness = 127
-			case ledBrightness.max: myBrightness = 255
-		}
-		setAmplitude(type, myBrightness)
+	//% block="Change amplitude of %ledToRead | to %ledBrightness"
+	//% shim=gatorParticle::setAmplitude
+	export function setAmplitude(led: ledToRead, myBrightness: ledBrightness): void
+	{
+		return
 	}
 	
 	/**
 	* Functions used for simulator, actual implementations are in gatorparticle.cpp
 	*/
-	
-	//% shim=gatorParticle::setAmplitude
-	function setAmplitude(led: number, myBrightness: number)
-	{
-		setAmplitude(led, myBrightness)
-	}
-	
 	//% shim=gatorParticle::getRedValue
 	function getRedValue()
 	{
@@ -113,4 +101,6 @@ namespace gatorParticle {
 	{
 		return 0
 	}
+	
+
 }

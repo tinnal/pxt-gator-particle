@@ -54,13 +54,10 @@ namespace gatorParticle {
 		return particleSensor->getIR();
 	}
 	
-	/*
-	* Sets the Amplitude
-	*/
 	//%
 	void setAmplitude(uint8_t led, uint8_t myBrightness)
 	{
-		switch (led)
+		switch(led)
 		{
 			case 1:
 				particleSensor->setPulseAmplitudeRed(myBrightness);

@@ -712,7 +712,7 @@ void MAX30105::bitMask(uint8_t reg, uint8_t mask, uint8_t thing)
 // Low-level I2C Communication
 //
 uint8_t MAX30105::readRegister8(uint8_t address, uint8_t reg) {
-  return uBit.i2c.readRegister(MAX30105_ADDRESS, reg); //Fail
+  return uBit.i2c.readRegister(address, reg); //Fail
 }
 
 void MAX30105::writeRegister8(uint8_t address, uint8_t reg, uint8_t value) {

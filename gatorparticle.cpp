@@ -55,6 +55,12 @@ namespace gatorParticle {
 	}
 	
 	//%
+	void setMode(uint8_t mode)
+	{
+		particleSensor->setLEDMode(mode);
+	}
+	
+	//%
 	void setAmplitude(uint8_t led, uint8_t myBrightness)
 	{
 		switch(myBrightness)

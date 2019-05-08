@@ -43,6 +43,11 @@
 	 max=5,  
  }
 
+ enum ledMode{
+	 red=1,
+	 red_IR=2,
+ }
+ 
 //% color=#f44242 icon="\uf185"
 namespace gatorParticle {
     // Functions for reading Particle from the gatorParticle in Particle or straight adv value
@@ -79,6 +84,15 @@ namespace gatorParticle {
 	}
 	
 	//% weight=28
+	//% blockId="gatorParticle_mode"
+	//% block="Set LED mode to read %ledMode"
+	//% shim=gatorParticle::setMode
+	export function setMode(): void
+	{
+		return
+	}
+	
+	//% weight=27
 	//% blockId="gatorParticle_amplitude"
 	//% block="Change amplitude of %ledToRead | to %ledBrightness"
 	//% shim=gatorParticle::setAmplitude
@@ -87,9 +101,10 @@ namespace gatorParticle {
 		return
 	}
 	
-	/**
+	/*
 	* Functions used for simulator, actual implementations are in gatorparticle.cpp
 	*/
+	
 	//% shim=gatorParticle::getRedValue
 	function getRedValue()
 	{

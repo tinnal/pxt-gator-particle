@@ -28,7 +28,6 @@
 	 smoke=3,
  }
  
- 
   //Default is 0x1F which gets us 6.4mA
   //powerLevel = 0x02, 0.4mA - Presence detection of ~4 inch
   //powerLevel = 0x1F, 6.4mA - Presence detection of ~8 inch
@@ -68,7 +67,6 @@ namespace gatorParticle {
 		}
 	}
 	
-	
 	//% weight=29 
 	//% blockId="gatorParticle_detect" 
 	//% block="Detect %gatorDetectionType"
@@ -92,7 +90,7 @@ namespace gatorParticle {
 			case ledBrightness.high: myBrightness = 127
 			case ledBrightness.max: myBrightness = 255
 		}
-		setAmplitude(type, myBrightness)
+		//setAmplitude(type, myBrightness)
 	}
 	
 	/**
@@ -109,6 +107,4 @@ namespace gatorParticle {
 	{
 		return 0
 	}
-	
-
 }

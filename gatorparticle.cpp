@@ -55,20 +55,20 @@ namespace gatorParticle {
 	}
 	
 	/*
-	* Sets the Red Amplitude
+	* Sets the Amplitude
 	*/
 	//%
-	void setRedAmplitude(uint8_t myBrightness)
+	void setAmplitude(uint8_t led, uint8_t myBrightness)
 	{
-		particleSensor->setPulseAmplitudeRed(myBrightness);
+		switch (led)
+		{
+			case 1:
+				particleSensor->setPulseAmplitudeRed(myBrightness);
+				break;
+			case 2:
+				particleSensor->setPulseAmplitudeIR(myBrightness);
+				break;
+		}
 	}
 	
-	/*
-	* Sets the IR Amplitude
-	*/
-	//%
-	void setInfraredAmplitude(uint8_t myBrightness)
-	{
-		particleSensor->setPulseAmplitudeIR(myBrightness);
-	}
 }

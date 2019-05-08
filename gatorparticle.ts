@@ -17,7 +17,7 @@
  * Functions to operate the gatorParticle sensor
  */
 
- enum gatorParticleType{
+ enum ledToRead{
 	 red=1,
 	 infrared=2,
 	 green=3,
@@ -27,6 +27,21 @@
 	 heartbeat=1,
 	 presence=2,
 	 smoke=3,
+ }
+ 
+ 
+  //Default is 0x1F which gets us 6.4mA
+  //powerLevel = 0x02, 0.4mA - Presence detection of ~4 inch
+  //powerLevel = 0x1F, 6.4mA - Presence detection of ~8 inch
+  //powerLevel = 0x7F, 25.4mA - Presence detection of ~8 inch
+  //powerLevel = 0xFF, 50.0mA - Presence detection of ~12 inch
+ 
+ enum ledBrightness{
+	 off=0x00,
+	 low=0x02,
+	 mid=0x1F,
+	 high=0x7F,
+	 max=0xFF,  
  }
 
 //% color=#f44242 icon="\uf185"
@@ -41,17 +56,19 @@ namespace gatorParticle {
 		return true;
 	}
 	
+
+	
 	/**
 	* Reads the number
 	*/
 	//% weight=30 
 	//% blockId="gatorParticle_color" 
-	//% block="Get %gatorParticleType value"
-	export function color(type: gatorParticleType): number{
+	//% block="Get %ledToRead value"
+	export function color(type: ledToRead): number{
 		switch(type){
-			case gatorParticleType.red: return getRedValue()
-			case gatorParticleType.infrared: return getInfraredValue()
-			case gatorParticleType.green: return getGreenValue()
+			case ledToRead.red: return getRedValue()
+			case ledToRead.infrared: return getInfraredValue()
+			case ledToRead.green: return getGreenValue()
 		}
 	}
 	
@@ -59,11 +76,22 @@ namespace gatorParticle {
 	//% weight=29 
 	//% blockId="gatorParticle_detect" 
 	//% block="Detect %gatorDetectionType"
-	export function detect(type: gatorParticleType): boolean{
+	export function detect(type: ledToRead): boolean{
 		switch(type){
-			case gatorParticleType.red: return true
-			case gatorParticleType.infrared: return true
-			case gatorParticleType.green: return true
+			case ledToRead.red: return true
+			case ledToRead.infrared: return true
+			case ledToRead.green: return true
+		}
+	}
+	
+	//% weight=28
+	//% blockId="gatorParticle_settings"
+	//% block="Change brightness of %ledToRead | to %ledBrightness"
+	export function settings(ledType: ledToRead, brightness: ledBrightness): void{
+		switch(ledType){
+			case ledToRead.red: setRedAmplitude(brightness)
+			case ledToRead.infrared: setInfraredAmplitude(brightness)
+			case ledToRead.green: setGreenAmplitude(brightness)
 		}
 	}
 	
@@ -84,6 +112,24 @@ namespace gatorParticle {
 	
 	//% shim=gatorParticle::getGreenValue
 	function getGreenValue()
+	{
+		return 0
+	}
+
+	//% shim=gatorParticle::setRedAmplitude
+	function setRedAmplitude(brightness: number)
+	{
+		return 0
+	}
+	
+	//% shim=gatorParticle::setInfraredAmplitude
+	function setInfraredAmplitude(brightness: number)
+	{
+		return 0
+	}
+	
+	//% shim=gatorParticle::setGreenAmplitude
+	function setGreenAmplitude(brightness: number)
 	{
 		return 0
 	}

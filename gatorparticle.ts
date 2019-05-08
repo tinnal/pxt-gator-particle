@@ -107,12 +107,12 @@ namespace gatorParticle {
 	//% shim=gatorParticle::setRedAmplitude
 	function setRedAmplitude(brightness: number)
 	{
-		return 0
+		
 	}
 	
 	//% shim=gatorParticle::setInfraredAmplitude
 	function setInfraredAmplitude(brightness: number)
 	{
-		return 0
+		
 	}
 }

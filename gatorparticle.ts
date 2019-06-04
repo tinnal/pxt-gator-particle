@@ -48,7 +48,7 @@
 	 red_IR=2,
  }
  
-//% color=#f44242 icon="\uf185"
+//% color=#f44242 icon="\uf7e4"
 namespace gatorParticle {
     // Functions for reading Particle from the gatorParticle in Particle or straight adv value
 	
@@ -56,8 +56,8 @@ namespace gatorParticle {
 	//% blockId="gatorParticle_begin" 
 	//% block="Initialize gator:Particle sensor"
 	//% shim=gatorParticle::begin
-	export function begin(): boolean{
-		return true;
+	export function begin(){
+		return
 	}
 		
 	/**
@@ -72,28 +72,18 @@ namespace gatorParticle {
 			case ledToRead.infrared: return getInfraredValue()
 		}
 	}
-	
-	//% weight=29 
-	//% blockId="gatorParticle_detect" 
-	//% block="Detect %gatorDetectionType"
-	export function detect(type: ledToRead): boolean{
-		switch(type){
-			case ledToRead.red: return true
-			case ledToRead.infrared: return true
-		}
-	}
-	
+		
 	//% weight=28
-	//% blockId="gatorParticle_mode"
+	//% blockId="gatorParticle_setMode"
 	//% block="Set LED mode to read %ledMode"
 	//% shim=gatorParticle::setMode
-	export function setMode(): void
+	export function setMode(type: ledMode): void
 	{
 		return
 	}
 	
 	//% weight=27
-	//% blockId="gatorParticle_amplitude"
+	//% blockId="gatorParticle_setAmplitude"
 	//% block="Change amplitude of %ledToRead | to %ledBrightness"
 	//% shim=gatorParticle::setAmplitude
 	export function setAmplitude(led: ledToRead, myBrightness: ledBrightness): void

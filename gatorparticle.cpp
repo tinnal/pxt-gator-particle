@@ -29,11 +29,10 @@ namespace gatorParticle {
 	* Initializes the particle sensor
 	*/
 	//%
-	bool begin()
+	void begin()
 	{
-		bool status = particleSensor->begin(i2c);
+		particleSensor->begin(i2c);
 		particleSensor->setup();
-		return status;
 	}
 	
 	/*

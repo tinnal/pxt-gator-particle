@@ -27,7 +27,7 @@ class MAX30105 {
  public: 
   MAX30105(void);
 
-  bool begin(MicroBitI2C &wirePort);
+  void begin();
 
   uint32_t getRed(void); //Returns immediate red value
   uint32_t getIR(void); //Returns immediate IR value

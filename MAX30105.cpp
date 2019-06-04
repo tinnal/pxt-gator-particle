@@ -158,22 +158,18 @@ MAX30105::MAX30105() {
   // Constructor
 }
 
-bool MAX30105::begin(MicroBitI2C &wirePort) {
+void MAX30105::begin() {
 
-  _i2cPort = &wirePort; //Grab which port the user wants us to use
   // Step 1: Initial Communication and Verification
   // Check that a MAX30105 is connected
   if (readPartID() != MAX_30105_EXPECTEDPARTID) {
     // Error -- Part ID read from MAX30105 does not match expected part ID.
     // This may mean there is a physical connectivity problem (broken wire, unpowered, etc).
-    return false;
   }
 
   // Populate revision ID
   readRevisionID();
   
-  
-  return true;
 }
 
 //

@@ -13,7 +13,7 @@
 #include "mbed.h"
 #include "MicroBit.h"
 
-MicroBit uBit;
+MicroBit uBit1;
 
 // Status Registers
 static const char MAX30105_INTSTAT1 =		0x00;
@@ -160,7 +160,7 @@ MAX30105::MAX30105() {
 
 void MAX30105::begin() {
 
-  uBit.init();
+  uBit1.init();
   // Step 1: Initial Communication and Verification
   // Check that a MAX30105 is connected
   if (readPartID() != MAX_30105_EXPECTEDPARTID) {
@@ -227,12 +227,12 @@ void MAX30105::softReset(void) {
 
   // Poll for bit to clear, reset is then complete
   // Timeout after 100ms
-  unsigned long startTime = uBit.systemTime();
-  while (uBit.systemTime() - startTime < 100)
+  unsigned long startTime = uBit1.systemTime();
+  while (uBit1.systemTime() - startTime < 100)
   {
     uint8_t response = readRegister8(MAX30105_ADDRESS, MAX30105_MODECONFIG);
     if ((response & MAX30105_RESET) == 0) break; //We're done!
-    uBit.sleep(1); //Let's not over burden the I2C bus
+    uBit1.sleep(1); //Let's not over burden the I2C bus
   }
 }
 
@@ -382,8 +382,8 @@ float MAX30105::readTemperature() {
 
   // Poll for bit to clear, reading is then complete
   // Timeout after 100ms
-  unsigned long startTime = uBit.systemTime();
-  while (uBit.systemTime() - startTime < 100)
+  unsigned long startTime = uBit1.systemTime();
+  while (uBit1.systemTime() - startTime < 100)
   {
     //uint8_t response = readRegister8(MAX30105_ADDRESS, MAX30105_DIETEMPCONFIG); //Original way
     //if ((response & 0x01) == 0) break; //We're done!
@@ -391,10 +391,10 @@ float MAX30105::readTemperature() {
 	//Check to see if DIE_TEMP_RDY interrupt is set
 	uint8_t response = readRegister8(MAX30105_ADDRESS, MAX30105_INTSTAT2);
     if ((response & MAX30105_INT_DIE_TEMP_RDY_ENABLE) > 0) break; //We're done!
-    uBit.sleep(1); //Let's not over burden the I2C bus
+    uBit1.sleep(1); //Let's not over burden the I2C bus
   }
   //TODO How do we want to fail? With what type of error?
-  //? if(uBit.systemTime() - startTime >= 100) return(-999.0);
+  //? if(uBit1.systemTime() - startTime >= 100) return(-999.0);
 
   // Step 2: Read die temperature register (integer)
   int8_t tempInt = readRegister8(MAX30105_ADDRESS, MAX30105_DIETEMPINT);
@@ -629,13 +629,13 @@ uint16_t MAX30105::check(void)
       uint8_t toGet = activeDiodes * 3;
 
       //Request toGet number of uint8_ts from sensor
-      //uBit.i2c.requestFrom(MAX30105_ADDRESS, toGet);
+      //uBit1.i2c.requestFrom(MAX30105_ADDRESS, toGet);
       while(toGet > 0)
 	  {
 		uint8_t temp[9]; //Array of 9 uint8_ts that we will convert into longs
 		uint8_t temp2[4];
         uint32_t tempLong;
-		uBit.i2c.readRegister(MAX30105_ADDRESS, (uint8_t)MAX30105_FIFODATA, temp, toGet);
+		uBit1.i2c.readRegister(MAX30105_ADDRESS, (uint8_t)MAX30105_FIFODATA, temp, toGet);
         sense.head++; //Advance the head of the storage struct
         sense.head %= STORAGE_SIZE; //Wrap condition
 		for (int led = 0; led < activeDiodes; led++)
@@ -675,11 +675,11 @@ uint16_t MAX30105::check(void)
 //Returns false if new data was not found
 bool MAX30105::safeCheck(uint8_t maxTimeToCheck)
 {
-  uint32_t markTime = uBit.systemTime();
+  uint32_t markTime = uBit1.systemTime();
   
   while(1)
   {
-	if(uBit.systemTime() - markTime > maxTimeToCheck){
+	if(uBit1.systemTime() - markTime > maxTimeToCheck){
 		
 		return(false);
 	}
@@ -688,7 +688,7 @@ bool MAX30105::safeCheck(uint8_t maxTimeToCheck)
 	{ //We found new data!
 	  return(true);
 	}
-	uBit.sleep(1);
+	uBit1.sleep(1);
   }
 }
 
@@ -709,9 +709,9 @@ void MAX30105::bitMask(uint8_t reg, uint8_t mask, uint8_t thing)
 // Low-level I2C Communication
 //
 uint8_t MAX30105::readRegister8(uint8_t address, uint8_t reg) {
-  return uBit.i2c.readRegister(address, reg); //Fail
+  return uBit1.i2c.readRegister(address, reg); //Fail
 }
 
 void MAX30105::writeRegister8(uint8_t address, uint8_t reg, uint8_t value) {
-  uBit.i2c.writeRegister(address, reg, value);
+  uBit1.i2c.writeRegister(address, reg, value);
 }

@@ -52,7 +52,7 @@
 namespace gatorParticle {
     // Functions for reading Particle from the gatorParticle in Particle or straight adv value
 	
-	//% weight=31 
+	//% weight=30 
 	//% blockId="gatorParticle_begin" 
 	//% block="Initialize gator:Particle sensor"
 	//% shim=gatorParticle::begin
@@ -63,7 +63,7 @@ namespace gatorParticle {
 	/**
 	* Reads the number
 	*/
-	//% weight=30 
+	//% weight=29 
 	//% blockId="gatorParticle_color" 
 	//% block="Get %ledToRead value"
 	export function color(type: ledToRead): number{

@@ -17,36 +17,20 @@
  * Functions to operate the gatorParticle sensor
  */
 
- enum ledToRead{
-	 red=1,
-	 infrared=2,
- } 
+enum ledToRead{
+	red=1,
+	infrared=2,
+} 
  
- enum gatorDetectionType{
-	 heartbeat=1,
-	 presence=2,
-	 smoke=3,
- }
- 
- 
-  //Default is 0x1F which gets us 6.4mA
-  //powerLevel = 0x02, 0.4mA - Presence detection of ~4 inch
-  //powerLevel = 0x1F, 6.4mA - Presence detection of ~8 inch
-  //powerLevel = 0x7F, 25.4mA - Presence detection of ~8 inch
-  //powerLevel = 0xFF, 50.0mA - Presence detection of ~12 inch
- 
- enum ledBrightness{
-	 off=1,
-	 low=2,
-	 mid=3,
-	 high=4,
-	 max=5,  
- }
+enum heartbeatType{
+	BPM=1,
+	AVG=2,
+}
 
- enum ledMode{
-	 red=1,
-	 red_and_IR=2,
- }
+enum ledMode{
+	red=1,
+	red_and_IR=2,
+}
  
 //% color=#f44242 icon="\uf06d"
 namespace gatorParticle {
@@ -61,34 +45,44 @@ namespace gatorParticle {
 	}
 		
 	/**
-	* Reads the number
+	* Reads either the Red or Infrared detection channels
 	*/
 	//% weight=29 
 	//% blockId="gatorParticle_color" 
 	//% block="Get %ledToRead value"
+	//% shim=gatorParticle::color
 	export function color(type: ledToRead): number{
-		switch(type){
-			case ledToRead.red: return getRedValue()
-			case ledToRead.infrared: return getInfraredValue()
-		}
+		return 0
 	}
-		
+	
+	/**
+	* 
+	*/	
 	//% weight=28
-	//% blockId="gatorParticle_setMode"
+	//% blockId="gatorParticle_setReadMode"
 	//% block="Set LED mode to read %ledMode"
-	//% shim=gatorParticle::setMode
-	export function setMode(type: ledMode): void
+	//% shim=gatorParticle::setReadMode
+	export function setReadMode(mode: ledMode)
 	{
 		return
 	}
 	
 	//% weight=27
 	//% blockId="gatorParticle_setAmplitude"
-	//% block="Change amplitude of %ledToRead | to %ledBrightness"
+	//% block="Change amplitude of %ledToRead | to %myBrightness"
 	//% shim=gatorParticle::setAmplitude
-	export function setAmplitude(led: ledToRead, myBrightness: ledBrightness): void
+	export function setAmplitude(led: ledToRead, myBrightness: number)
 	{
 		return
+	}
+	
+	//% weight=26
+	//% blockId="gatorParticle_heartbeat"
+	//% block="Detect heartbeat in %heartbeatType"
+	//% shim=gatorParticle::heartbeat
+	export function heartbeat(type: heartbeatType): number
+	{
+		return 0
 	}
 	
 	/*
@@ -106,6 +100,4 @@ namespace gatorParticle {
 	{
 		return 0
 	}
-	
-
 }

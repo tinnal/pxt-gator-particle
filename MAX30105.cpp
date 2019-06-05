@@ -143,6 +143,32 @@ uint8_t activeDiodes = 3; //Gets set during setup. Allows check() to calculate h
 
 #define STORAGE_SIZE 4 //Each long is 4 bytes so limit this to fit on your micro
 
+int16_t IR_AC_Max = 20;
+int16_t IR_AC_Min = -20;
+
+int16_t IR_AC_Signal_Current = 0;
+int16_t IR_AC_Signal_Previous;
+int16_t IR_AC_Signal_min = 0;
+int16_t IR_AC_Signal_max = 0;
+int16_t IR_Average_Estimated;
+
+int16_t positiveEdge = 0;
+int16_t negativeEdge = 0;
+int32_t ir_avg_reg = 0;
+
+int16_t cbuf[32];
+uint8_t offset = 0;
+
+static const uint16_t FIRCoeffs[12] = {172, 321, 579, 927, 1360, 1858, 2390, 2916, 3391, 3768, 4012, 4096};
+
+const uint8_t RATE_SIZE = 4; //Increase this for more averaging. 4 is good.
+uint8_t rates[RATE_SIZE]; //Array of heart rates
+uint8_t rateSpot = 0;
+long lastBeat = 0; //Time at which the last beat occurred
+
+float beatsPerMinute;
+int beatAvg;
+
 typedef struct Record
 {
   uint32_t red[STORAGE_SIZE];
@@ -523,6 +549,46 @@ void MAX30105::setup(uint8_t powerLevel, uint8_t sampleAverage, uint8_t ledMode,
   clearFIFO(); //Reset the FIFO before we begin checking the sensor
 }
 
+
+uint8_t MAX30105::getHeartbeat(uint8_t type)
+	{
+	  long irValue = getIR();
+		if (checkForBeat(irValue) == true)
+		{
+			//We sensed a beat!
+			long delta = uBit1.systemTime() - lastBeat;
+			lastBeat = uBit1.systemTime();
+
+			beatsPerMinute = 60 / (delta / 1000.0);
+
+			if (beatsPerMinute < 255 && beatsPerMinute > 20)
+			{
+				rates[rateSpot++] = (uint8_t)beatsPerMinute; //Store this reading in the array
+				rateSpot %= RATE_SIZE; //Wrap variable
+
+				//Take average of readings
+				beatAvg = 0;
+				for (uint8_t x = 0 ; x < RATE_SIZE ; x++){
+					beatAvg += rates[x];
+				}
+			beatAvg /= RATE_SIZE;
+			}
+		}
+		uint32_t temp;
+		switch(type)
+		{
+			case 1:
+				temp = beatsPerMinute;
+				break;
+				
+			case 2:
+				temp = beatAvg;
+				break;
+				
+		}
+		return temp;
+	}
+	
 //
 // Data Collection
 //
@@ -703,6 +769,97 @@ void MAX30105::bitMask(uint8_t reg, uint8_t mask, uint8_t thing)
 
   // Change contents
   writeRegister8(MAX30105_ADDRESS, reg, originalContents | thing);
+}
+
+//  Heart Rate Monitor functions takes a sample value and the sample number
+//  Returns true if a beat is detected
+//  A running average of four samples is recommended for display on the screen.
+bool MAX30105::checkForBeat(int32_t sample)
+{
+  bool beatDetected = false;
+
+  //  Save current state
+  IR_AC_Signal_Previous = IR_AC_Signal_Current;
+  
+  //This is good to view for debugging
+  //Serial.print("Signal_Current: ");
+  //Serial.println(IR_AC_Signal_Current);
+
+  //  Process next data sample
+  IR_Average_Estimated = averageDCEstimator(&ir_avg_reg, sample);
+  IR_AC_Signal_Current = lowPassFIRFilter(sample - IR_Average_Estimated);
+
+  //  Detect positive zero crossing (rising edge)
+  if ((IR_AC_Signal_Previous < 0) & (IR_AC_Signal_Current >= 0))
+  {
+  
+    IR_AC_Max = IR_AC_Signal_max; //Adjust our AC max and min
+    IR_AC_Min = IR_AC_Signal_min;
+
+    positiveEdge = 1;
+    negativeEdge = 0;
+    IR_AC_Signal_max = 0;
+
+    //if ((IR_AC_Max - IR_AC_Min) > 100 & (IR_AC_Max - IR_AC_Min) < 1000)
+    if (((IR_AC_Max - IR_AC_Min) > 20) & ((IR_AC_Max - IR_AC_Min) < 1000))
+    {
+      //Heart beat!!!
+      beatDetected = true;
+    }
+  }
+
+  //  Detect negative zero crossing (falling edge)
+  if ((IR_AC_Signal_Previous > 0) & (IR_AC_Signal_Current <= 0))
+  {
+    positiveEdge = 0;
+    negativeEdge = 1;
+    IR_AC_Signal_min = 0;
+  }
+
+  //  Find Maximum value in positive cycle
+  if (positiveEdge & (IR_AC_Signal_Current > IR_AC_Signal_Previous))
+  {
+    IR_AC_Signal_max = IR_AC_Signal_Current;
+  }
+
+  //  Find Minimum value in negative cycle
+  if (negativeEdge & (IR_AC_Signal_Current < IR_AC_Signal_Previous))
+  {
+    IR_AC_Signal_min = IR_AC_Signal_Current;
+  }
+  
+  return(beatDetected);
+}
+
+//  Average DC Estimator
+int16_t MAX30105::averageDCEstimator(int32_t *p, uint16_t x)
+{
+  *p += ((((long) x << 15) - *p) >> 4);
+  return (*p >> 15);
+}
+
+//  Low Pass FIR Filter
+int16_t MAX30105::lowPassFIRFilter(int16_t din)
+{  
+  cbuf[offset] = din;
+
+  int32_t z = mul16(FIRCoeffs[11], cbuf[(offset - 11) & 0x1F]);
+  
+  for (uint8_t i = 0 ; i < 11 ; i++)
+  {
+    z += mul16(FIRCoeffs[i], cbuf[(offset - i) & 0x1F] + cbuf[(offset - 22 + i) & 0x1F]);
+  }
+
+  offset++;
+  offset %= 32; //Wrap condition
+
+  return(z >> 15);
+}
+
+//  Integer multiplier
+int32_t MAX30105::mul16(int16_t x, int16_t y)
+{
+  return((long)x * (long)y);
 }
 
 //

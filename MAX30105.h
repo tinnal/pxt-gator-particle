@@ -104,6 +104,13 @@ class MAX30105 {
   // Setup the IC with user selectable settings
   void setup(uint8_t powerLevel = 0x1F, uint8_t sampleAverage = 4, uint8_t ledMode = 2, int sampleRate = 400, int pulseWidth = 411, int adcRange = 4096);
 
+  bool checkForBeat(int32_t sample);
+  int16_t averageDCEstimator(int32_t *p, uint16_t x);
+  int16_t lowPassFIRFilter(int16_t din);
+  int32_t mul16(int16_t x, int16_t y);
+
+  uint8_t getHeartbeat(uint8_t type);
+  
   // Low-level I2C communication
   uint8_t readRegister8(uint8_t address, uint8_t reg);
   void writeRegister8(uint8_t address, uint8_t reg, uint8_t value);

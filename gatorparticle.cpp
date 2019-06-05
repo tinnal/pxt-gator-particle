@@ -24,9 +24,7 @@ namespace gatorParticle {
 	//MicroBitI2C i2c(I2C_SDA0, I2C_SCL0);
 	MAX30105 *particleSensor;
 	
-	/*
-	* Initializes the particle sensor
-	*/
+
 	//%
 	void begin()
 	{
@@ -34,57 +32,30 @@ namespace gatorParticle {
 		particleSensor->setup();
 	}
 	
-	/*
-	* Returns the red value
-	*/
-	//%
-	uint32_t getRedValue()
+	uint32_t color(uint8_t type)
 	{
-		return particleSensor->getRed();
+		switch(type)
+		{
+			case 1:
+				particleSensor->getRed();
+				break;
+			case 2:
+				particleSensor->getIR();
+				break;
+		}
 	}
-	
-	/*
-	* Returns the infrared value
-	*/
+
+
 	//%
-	uint32_t getInfraredValue()
-	{
-		return particleSensor->getIR();
-	}
-	
-	/*
-	*Sets Red or Red and IR LEDs to active
-	*/
-	//%
-	void setMode(uint8_t mode)
+	void setReadMode(uint8_t mode)
 	{
 		particleSensor->setLEDMode(mode);
 	}
-	
-	/*
-	*Sets Red or IR LED amplitude
-	*/
+
+
 	//%
 	void setAmplitude(uint8_t led, uint8_t myBrightness)
 	{
-		switch(myBrightness)
-		{
-			case 1:
-				myBrightness = 0;
-				break;
-			case 2:
-				myBrightness = 2;
-				break;
-			case 3:
-				myBrightness = 31;
-				break;
-			case 4:
-				myBrightness = 127;
-				break;
-			case 5:
-				myBrightness = 255;
-				break;
-		}
 		switch(led)
 		{
 			case 1:
@@ -94,5 +65,10 @@ namespace gatorParticle {
 				particleSensor->setPulseAmplitudeIR(myBrightness);
 				break;
 		}
+	}
+
+	uint8_t heartbeat(uint8_t type)
+	{
+	  return particleSensor->getHeartbeat(type);
 	}
 }

@@ -161,14 +161,6 @@ uint8_t offset = 0;
 
 static const uint16_t FIRCoeffs[12] = {172, 321, 579, 927, 1360, 1858, 2390, 2916, 3391, 3768, 4012, 4096};
 
-const uint8_t RATE_SIZE = 4; //Increase this for more averaging. 4 is good.
-uint8_t rates[RATE_SIZE]; //Array of heart rates
-uint8_t rateSpot = 0;
-unsigned long lastBeat = 0; //Time at which the last beat occurred
-
-float beatsPerMinute;
-int beatAvg;
-
 typedef struct Record
 {
   uint32_t red[STORAGE_SIZE];
@@ -548,44 +540,7 @@ void MAX30105::setup(uint8_t powerLevel, uint8_t sampleAverage, uint8_t ledMode,
 }
 
 
-uint8_t MAX30105::getHeartbeat(uint8_t type)
-	{
-	    long irValue = getIR();
-		if (checkForBeat(irValue) == true)
-		{
-			//We sensed a beat!
-			unsigned long delta = uBit.systemTime() - lastBeat;
-			lastBeat = uBit.systemTime();
 
-			beatsPerMinute = 60 / (delta / 1000.0);
-
-			if (beatsPerMinute < 255 && beatsPerMinute > 20)
-			{
-				rates[rateSpot++] = (uint8_t)beatsPerMinute; //Store this reading in the array
-				rateSpot %= RATE_SIZE; //Wrap variable
-
-				//Take average of readings
-				beatAvg = 0;
-				for (uint8_t x = 0 ; x < RATE_SIZE ; x++){
-					beatAvg += rates[x];
-				}
-				beatAvg /= RATE_SIZE;
-			}
-		}
-		uint8_t temp;
-		switch(type)
-		{
-			case 0:
-				temp = (uint8_t)beatsPerMinute;
-				break;
-				
-			case 1:
-				temp = (uint8_t)beatAvg;
-				break;
-				
-		}
-		return temp;
-	}
 	
 //
 // Data Collection

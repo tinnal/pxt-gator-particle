@@ -23,7 +23,13 @@ using namespace pxt;
 namespace gatorParticle {
 	//MicroBitI2C i2c(I2C_SDA0, I2C_SCL0);
 	MAX30105 *particleSensor;
+	const uint8_t RATE_SIZE = 4; //Increase this for more averaging. 4 is good.
+	uint8_t rates[RATE_SIZE]; //Array of heart rates
+	uint8_t rateSpot = 0;
+	unsigned long lastBeat = 0; //Time at which the last beat occurred
 	
+	float beatsPerMinute;
+	int beatAvg;
 
 	//%
 	void begin()
@@ -70,6 +76,40 @@ namespace gatorParticle {
 	//%
 	uint8_t heartbeat(uint8_t type)
 	{
-	  return particleSensor->getHeartbeat(type);
+	    long irValue = particleSensor->getIR();
+		if (particleSensor->checkForBeat(irValue) == true)
+		{
+			//We sensed a beat!
+			unsigned long delta = uBit.systemTime() - lastBeat;
+			lastBeat = uBit.systemTime();
+
+			beatsPerMinute = 60 / (delta / 1000.0);
+
+			if (beatsPerMinute < 255 && beatsPerMinute > 20)
+			{
+				rates[rateSpot++] = (uint8_t)beatsPerMinute; //Store this reading in the array
+				rateSpot %= RATE_SIZE; //Wrap variable
+
+				//Take average of readings
+				beatAvg = 0;
+				for (uint8_t x = 0 ; x < RATE_SIZE ; x++){
+					beatAvg += rates[x];
+				}
+				beatAvg /= RATE_SIZE;
+			}
+		}
+		uint8_t temp;
+		switch(type)
+		{
+			case 0:
+				temp = (uint8_t)beatsPerMinute;
+				break;
+				
+			case 1:
+				temp = (uint8_t)beatAvg;
+				break;
+				
+		}
+		return temp;
 	}
 }

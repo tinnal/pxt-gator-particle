@@ -82,7 +82,7 @@ namespace gatorParticle {
 	//% shim=gatorParticle::heartbeat
 	export function heartbeat(type: heartbeatType): number
 	{
-		return 1
+		return 0
 	}
 	
 	/*

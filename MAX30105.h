@@ -109,7 +109,6 @@ class MAX30105 {
   int16_t lowPassFIRFilter(int16_t din);
   int32_t mul16(int16_t x, int16_t y);
 
-  uint8_t getHeartbeat(uint8_t type);
   
   // Low-level I2C communication
   uint8_t readRegister8(uint8_t address, uint8_t reg);

@@ -23,8 +23,8 @@ enum ledToRead{
 } 
  
 enum heartbeatType{
-	BPM=1,
-	AVG=2,
+	BPM=0,
+	AVG=1,
 }
 
 enum ledMode{

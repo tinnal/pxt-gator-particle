@@ -89,7 +89,7 @@ namespace gatorParticle {
 			unsigned long delta = uBit.systemTime() - lastBeat;
 			lastBeat = uBit.systemTime();
 
-			beatsPerMinute = 60 / (delta / 1000.0);
+			beatsPerMinute = 60;// / (delta / 1000.0);
 
 			if (beatsPerMinute < 255 && beatsPerMinute > 20)
 			{

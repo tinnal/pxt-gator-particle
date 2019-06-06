@@ -66,7 +66,8 @@ namespace gatorParticle {
 				break;
 		}
 	}
-
+	
+	//%
 	uint8_t heartbeat(uint8_t type)
 	{
 	  return particleSensor->getHeartbeat(type);

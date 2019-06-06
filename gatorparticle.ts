@@ -56,7 +56,7 @@ namespace gatorParticle {
 	}
 	
 	/**
-	* 
+	* Set which LED's we want the sensor to update and read.
 	*/	
 	//% weight=28
 	//% blockId="gatorParticle_setReadMode"
@@ -69,7 +69,7 @@ namespace gatorParticle {
 	
 	//% weight=27
 	//% blockId="gatorParticle_setAmplitude"
-	//% block="Change amplitude of %ledToRead | to %myBrightness"
+	//% block="Change strength of %ledToRead | to %myBrightness"
 	//% shim=gatorParticle::setAmplitude
 	export function setAmplitude(led: ledToRead, myBrightness: number)
 	{
@@ -82,7 +82,7 @@ namespace gatorParticle {
 	//% shim=gatorParticle::heartbeat
 	export function heartbeat(type: heartbeatType): number
 	{
-		return 0
+		return 1
 	}
 	
 	/*

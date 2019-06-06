@@ -660,11 +660,11 @@ uint16_t MAX30105::check(void)
         sense.head %= STORAGE_SIZE; //Wrap condition
 		for (int led = 0; led < activeDiodes; led++)
 		{
-			uint8_t offset = led * 3;
+			uint8_t checkOffset = led * 3;
 			temp2[3] = 0;
-			temp2[0] = temp[2 + offset];
-			temp2[1] = temp[1 + offset];
-			temp2[2] = temp[offset];
+			temp2[0] = temp[2 + checkOffset];
+			temp2[1] = temp[1 + checkOffset];
+			temp2[2] = temp[checkOffset];
 			memcpy(&tempLong, temp2, sizeof(tempLong)); //tempLong is 4 bytes, we only need 3
 			tempLong &= 0x3FFFF;
 			switch (led)

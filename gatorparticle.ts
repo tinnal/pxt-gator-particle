@@ -84,20 +84,4 @@ namespace gatorParticle {
 	{
 		return 0
 	}
-	
-	/*
-	* Functions used for simulator, actual implementations are in gatorparticle.cpp
-	*/
-	
-	//% shim=gatorParticle::getRedValue
-	function getRedValue()
-	{
-		return 0
-	}
-	
-	//% shim=gatorParticle::getInfraredValue
-	function getInfraredValue()
-	{
-		return 0
-	}
 }

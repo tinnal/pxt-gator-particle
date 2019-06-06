@@ -85,8 +85,8 @@ namespace gatorParticle {
 		if (heartbeat == true)
 		{
 			//We sensed a beat!
-			unsigned long delta = particleSensor->uBit.systemTime() - lastBeat;
-			lastBeat = particleSensor->uBit.systemTime();
+			unsigned long delta = uBit.systemTime() - lastBeat;
+			lastBeat = uBit.systemTime();
 
 			beatsPerMinute = 60 / (delta / 1000.0);
 

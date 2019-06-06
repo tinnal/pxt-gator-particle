@@ -13,6 +13,8 @@
 #include "mbed.h"
 #include "MicroBit.h"
 
+MicroBit uBit;
+
 static const char MAX30105_ADDRESS = 0xAE;
 // Status Registers
 static const char MAX30105_INTSTAT1 =		0x00;
@@ -177,6 +179,7 @@ MAX30105::MAX30105() {
 
 void MAX30105::begin() {
 
+  uBit.init();
   // Step 1: Initial Communication and Verification
   // Check that a MAX30105 is connected
   if (readPartID() != MAX_30105_EXPECTEDPARTID) {
@@ -557,7 +560,7 @@ uint8_t MAX30105::available(void)
 uint32_t MAX30105::getRed(void)
 {
   //Check the sensor for new data for 250ms
-  if(safeCheck(100)){
+  if(safeCheck(250)){
     return sense.red[sense.head];
   }
   else
@@ -568,7 +571,7 @@ uint32_t MAX30105::getRed(void)
 uint32_t MAX30105::getIR(void)
 {
   //Check the sensor for new data for 250ms
-  if(safeCheck(100))
+  if(safeCheck(250))
     return (sense.IR[sense.head]);
   else
     return(0); //Sensor failed to find new data
@@ -578,7 +581,7 @@ uint32_t MAX30105::getIR(void)
 uint32_t MAX30105::getGreen(void)
 {
   //Check the sensor for new data for 250ms
-  if(safeCheck(100))
+  if(safeCheck(250))
     return (sense.green[sense.head]);
   else
     return(0); //Sensor failed to find new data
@@ -752,7 +755,7 @@ bool MAX30105::checkForBeat(uint32_t sample)
     IR_AC_Signal_max = 0;
 
     //if ((IR_AC_Max - IR_AC_Min) > 100 & (IR_AC_Max - IR_AC_Min) < 1000)
-    if (((IR_AC_Max - IR_AC_Min) > 20) & ((IR_AC_Max - IR_AC_Min) < 1000))
+    if (((IR_AC_Max - IR_AC_Min) > 20) & ((IR_AC_Max - IR_AC_Min) < 2000))
     {
       //Heart beat!!!
       beatDetected = true;

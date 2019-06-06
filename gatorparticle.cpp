@@ -81,9 +81,8 @@ namespace gatorParticle {
 	{
 	    uint32_t irValue = particleSensor->getIR();
 		bool heartbeat = particleSensor->checkForBeat(irValue);
-		uBit.serial.sendChar('f');
 		uint8_t temp;
-		if (heartbeat == true)
+		if (particleSensor->checkForBeat(irValue) == true)
 		{
 			
 		uBit.serial.sendChar('c');

@@ -24,6 +24,9 @@
 
 class MAX30105 {
  public: 
+ 
+  MicroBit uBit;
+
   MAX30105(void);
 
   void begin();

@@ -106,7 +106,6 @@ namespace gatorParticle {
 				beatAvg /= RATE_SIZE;
 			}
 		}
-		release_fiber();
 		switch(type)
 		{
 			case 0:

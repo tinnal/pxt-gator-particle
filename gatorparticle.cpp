@@ -79,6 +79,8 @@ namespace gatorParticle {
 	//%
 	uint8_t heartbeat(uint8_t type)
 	{
+		MicroBit uBit;
+		uBit.init();
 	    int32_t irValue = particleSensor->getIR();
 		bool heartbeat = particleSensor->checkForBeat(irValue);
 		uint8_t temp = 40;
@@ -105,6 +107,7 @@ namespace gatorParticle {
 				beatAvg /= RATE_SIZE;
 			}
 		}
+		release_fiber();
 		switch(type)
 		{
 			case 0:

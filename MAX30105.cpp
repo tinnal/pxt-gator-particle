@@ -574,11 +574,11 @@ uint8_t MAX30105::getHeartbeat(uint8_t type)
 			beatAvg /= RATE_SIZE;
 			}
 		}
-		uint32_t temp;
+		uint8_t temp;
 		switch(type)
 		{
 			case 1:
-				temp = beatsPerMinute;
+				temp = (uint8_t)beatsPerMinute;
 				break;
 				
 			case 2:

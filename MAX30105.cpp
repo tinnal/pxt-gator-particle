@@ -15,6 +15,7 @@
 
 MicroBit uBit;
 
+static const char MAX30105_ADDRESS = 0xAE;
 // Status Registers
 static const char MAX30105_INTSTAT1 =		0x00;
 static const char MAX30105_INTSTAT2 =		0x01;

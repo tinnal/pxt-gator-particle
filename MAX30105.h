@@ -13,8 +13,7 @@
 
 #include "mbed.h"
 #include "MicroBit.h"
-
-#define MAX30105_ADDRESS          0xAE //8-bit I2C Address
+ //8-bit I2C Address
 //Note that MAX30102 has the same I2C address and Part ID
 
 #define I2C_SPEED_STANDARD        100000
@@ -116,7 +115,6 @@ class MAX30105 {
 
  private:
   MicroBitI2C *_i2cPort; //The generic connection to user's chosen I2C hardware
-  uint8_t _i2caddr = 0xAE;
 
   //activeDiodes is the number of channels turned on, and can be 1 to 3. 2 is common for Red+IR.
   

@@ -43,10 +43,10 @@ namespace gatorParticle {
 		switch(type)
 		{
 			case 1:
-				particleSensor->getRed();
+				return particleSensor->getRed();
 				break;
 			case 2:
-				particleSensor->getIR();
+				return particleSensor->getIR();
 				break;
 		}
 	}

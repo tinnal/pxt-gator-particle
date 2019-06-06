@@ -86,7 +86,7 @@ namespace gatorParticle {
 		if (heartbeat == true)
 		{
 			
-		uBit.serial.sendChar('b');
+		uBit.serial.sendChar('c');
 			//We sensed a beat!
 			unsigned long delta = uBit.systemTime() - lastBeat;
 			lastBeat = uBit.systemTime();

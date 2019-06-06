@@ -560,7 +560,7 @@ uint8_t MAX30105::available(void)
 uint32_t MAX30105::getRed(void)
 {
   //Check the sensor for new data for 250ms
-  if(safeCheck(250)){
+  if(safeCheck(100)){
     return sense.red[sense.head];
   }
   else
@@ -571,7 +571,7 @@ uint32_t MAX30105::getRed(void)
 uint32_t MAX30105::getIR(void)
 {
   //Check the sensor for new data for 250ms
-  if(safeCheck(250))
+  if(safeCheck(100))
     return (sense.IR[sense.head]);
   else
     return(0); //Sensor failed to find new data
@@ -581,7 +581,7 @@ uint32_t MAX30105::getIR(void)
 uint32_t MAX30105::getGreen(void)
 {
   //Check the sensor for new data for 250ms
-  if(safeCheck(250))
+  if(safeCheck(100))
     return (sense.green[sense.head]);
   else
     return(0); //Sensor failed to find new data
@@ -728,7 +728,7 @@ void MAX30105::bitMask(uint8_t reg, uint8_t mask, uint8_t thing)
 //  Heart Rate Monitor functions takes a sample value and the sample number
 //  Returns true if a beat is detected
 //  A running average of four samples is recommended for display on the screen.
-bool MAX30105::checkForBeat(int32_t sample)
+bool MAX30105::checkForBeat(uint32_t sample)
 {
   bool beatDetected = false;
 

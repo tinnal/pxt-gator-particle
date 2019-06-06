@@ -81,11 +81,12 @@ namespace gatorParticle {
 	{
 		MicroBit uBit;
 		uBit.init();
-	    int32_t irValue = particleSensor->getIR();
+	    uint32_t irValue = particleSensor->getIR();
 		bool heartbeat = particleSensor->checkForBeat(irValue);
 		uint8_t temp;
 		if (heartbeat == true)
 		{
+			uBit.serial.send("beat");
 			//We sensed a beat!
 			unsigned long delta = uBit.systemTime() - lastBeat;
 			lastBeat = uBit.systemTime();

@@ -28,7 +28,7 @@ namespace gatorParticle {
 	uint8_t rateSpot = 0;
 	unsigned long lastBeat = 0; //Time at which the last beat occurred
 	
-	float beatsPerMinute;
+	float beatsPerMinute = 20;
 	int beatAvg;
 
 	//%

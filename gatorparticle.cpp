@@ -79,7 +79,7 @@ namespace gatorParticle {
 	//%
 	uint8_t heartbeat(uint8_t type)
 	{
-	    uint32_t irValue = particleSensor->getIR();
+	    uint32_t irValue = particleSensor->getRed();
 		uint8_t temp = irValue;
 		if (particleSensor->checkForBeat(irValue) == true)
 		{

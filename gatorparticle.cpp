@@ -107,11 +107,11 @@ namespace gatorParticle {
 		switch(type)
 		{
 			case 0:
-				//temp = (uint8_t)beatsPerMinute;
+				temp = (uint8_t)beatsPerMinute;
 				break;
 				
 			case 1:
-				//temp = (uint8_t)beatAvg;
+				temp = (uint8_t)beatAvg;
 				break;
 				
 		}

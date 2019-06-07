@@ -723,8 +723,8 @@ bool MAX30105::checkForBeat(uint32_t sample)
   IR_AC_Signal_Previous = IR_AC_Signal_Current;
   
   //This is good to view for debugging
-  //Serial.print("Signal_Current: ");
-  //Serial.println(IR_AC_Signal_Current);
+  uBit.serial.send("Signal_Current: ");
+  uBit.serial.send(IR_AC_Signal_Current);
 
   //  Process next data sample
   IR_Average_Estimated = averageDCEstimator(&ir_avg_reg, sample);

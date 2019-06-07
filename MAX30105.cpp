@@ -170,12 +170,13 @@ typedef struct Record
 
 sense_struct sense;
 
+MicroBitSerial serial(USBTX, USBRX); 
+
 MAX30105::MAX30105() {
   // Constructor
 }
 
 void MAX30105::begin() {
-  MicroBitSerial serial(USBTX, USBRX); 
 
   uBit.init();
   // Step 1: Initial Communication and Verification

@@ -25,6 +25,7 @@
 class MAX30105 {
  public: 
 
+  MicroBit uBit;
   MAX30105(void);
 
   void begin();
@@ -113,8 +114,6 @@ class MAX30105 {
   void writeRegister8(uint8_t address, uint8_t reg, uint8_t value);
 
  private:
-  MicroBitI2C *_i2cPort; //The generic connection to user's chosen I2C hardware
-
   //activeDiodes is the number of channels turned on, and can be 1 to 3. 2 is common for Red+IR.
   
   uint8_t revisionID; 

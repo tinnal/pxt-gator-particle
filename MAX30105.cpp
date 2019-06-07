@@ -13,8 +13,6 @@
 #include "mbed.h"
 #include "MicroBit.h"
 
-MicroBit uBit;
-
 static const char MAX30105_ADDRESS = 0xAE;
 // Status Registers
 static const char MAX30105_INTSTAT1 =		0x00;
@@ -176,7 +174,6 @@ MAX30105::MAX30105() {
 
 void MAX30105::begin() {
 
-  uBit.init();
   // Step 1: Initial Communication and Verification
   // Check that a MAX30105 is connected
   if (readPartID() != MAX_30105_EXPECTEDPARTID) {

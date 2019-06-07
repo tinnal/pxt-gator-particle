@@ -717,7 +717,6 @@ bool MAX30105::checkForBeat(uint32_t sample)
   bool beatDetected = false;
   //  Save current state
   IR_AC_Signal_Previous = IR_AC_Signal_Current;
-  placeholder = IR_AC_Signal_Current;
   
   //This is good to view for debugging
   //uBit.serial.send("Signal_Current: ");
@@ -726,6 +725,7 @@ bool MAX30105::checkForBeat(uint32_t sample)
   //  Process next data sample
   IR_Average_Estimated = averageDCEstimator(&ir_avg_reg, sample);
   IR_AC_Signal_Current = lowPassFIRFilter(sample - IR_Average_Estimated);
+  placeholder = IR_Average_Estimated;
 
   //  Detect positive zero crossing (rising edge)
   if ((IR_AC_Signal_Previous < 0) && (IR_AC_Signal_Current >= 0))

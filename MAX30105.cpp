@@ -15,6 +15,8 @@
 
 MicroBit uBit;
 
+  int16_t placeholder;
+
 static const char MAX30105_ADDRESS = 0xAE;
 // Status Registers
 static const char MAX30105_INTSTAT1 =		0x00;
@@ -767,6 +769,11 @@ bool MAX30105::checkForBeat(uint32_t sample)
   }
   
   return(beatDetected);
+}
+
+int16_t MAX30105::getPlaceholder()
+{
+	return placeholder;
 }
 
 //  Average DC Estimator

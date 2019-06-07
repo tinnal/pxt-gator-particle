@@ -111,8 +111,8 @@ class MAX30105 {
   // Low-level I2C communication
   uint8_t readRegister8(uint8_t address, uint8_t reg);
   void writeRegister8(uint8_t address, uint8_t reg, uint8_t value);
-  int16_t placeholder;
-  
+
+  int16_t getPlaceholder();
  private:
   //activeDiodes is the number of channels turned on, and can be 1 to 3. 2 is common for Red+IR.
   

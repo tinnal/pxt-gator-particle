@@ -731,7 +731,7 @@ void MAX30105::bitMask(uint8_t reg, uint8_t mask, uint8_t thing)
 bool MAX30105::checkForBeat(uint32_t sample)
 {
   bool beatDetected = false;
-
+  uBit.serial.send((uint8_t) sample);
   //  Save current state
   IR_AC_Signal_Previous = IR_AC_Signal_Current;
   

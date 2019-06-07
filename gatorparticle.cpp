@@ -79,31 +79,34 @@ namespace gatorParticle {
 	//%
 	int16_t heartbeat(uint8_t type)
 	{
-	    uint32_t irValue = particleSensor->getIR();
-		uint8_t temp = irValue;
-		if (particleSensor->checkForBeat(irValue) == true)
+		uint8_t temp;
+		particleSensor->safeCheck(250);
+		do
 		{
-			//We sensed a beat!
-			unsigned long delta = uBit.systemTime() - lastBeat;
-			lastBeat = uBit.systemTime();
-
-			beatsPerMinute = 60 / (delta / 1000.0);
-
-			if (beatsPerMinute < 255 && beatsPerMinute > 20)
+			uint32_t irValue = particleSensor->getFIFOIR();
+			if (particleSensor->checkForBeat(irValue) == true)
 			{
-				temp = 80;
-				rates[rateSpot++] = (uint8_t)beatsPerMinute; //Store this reading in the array
-				rateSpot %= RATE_SIZE; //Wrap variable
+				//We sensed a beat!
+				unsigned long delta = uBit.systemTime() - lastBeat;
+				lastBeat = uBit.systemTime();
 
-				//Take average of readings
-				beatAvg = 0;
-				for (uint8_t x = 0 ; x < RATE_SIZE ; x++){
-					beatAvg += rates[x];
+				beatsPerMinute = 60 / (delta / 1000.0);
+
+				if (beatsPerMinute < 255 && beatsPerMinute > 20)
+				{
+					temp = 80;
+					rates[rateSpot++] = (uint8_t)beatsPerMinute; //Store this reading in the array
+					rateSpot %= RATE_SIZE; //Wrap variable
+
+					//Take average of readings
+					beatAvg = 0;
+					for (uint8_t x = 0 ; x < RATE_SIZE ; x++){
+						beatAvg += rates[x];
+					}
+					beatAvg /= RATE_SIZE;
 				}
-				beatAvg /= RATE_SIZE;
 			}
-		}
-		
+		} while(particleSensor->nextSample());
 		switch(type)
 		{
 			case 0:
@@ -115,6 +118,6 @@ namespace gatorParticle {
 				break;
 				
 		}
-		return particleSensor->getPlaceholder();//temp;
+		return temp;
 	}
 }

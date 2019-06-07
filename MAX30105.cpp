@@ -141,7 +141,7 @@ static const char MAX_30105_EXPECTEDPARTID = 0x15;
 
 uint8_t activeDiodes = 3; //Gets set during setup. Allows check() to calculate how many bytes to read from FIFO
 
-#define STORAGE_SIZE 4 //Each long is 4 bytes so limit this to fit on your micro
+#define STORAGE_SIZE 25 //Each long is 4 bytes so limit this to fit on your micro
 
 int16_t IR_AC_Max = 20;
 int16_t IR_AC_Min = -20;
@@ -592,12 +592,17 @@ uint32_t MAX30105::getFIFOGreen(void)
 }
 
 //Advance the tail
-void MAX30105::nextSample(void)
+bool MAX30105::nextSample(void)
 {
   if(available()) //Only advance the tail if new data is available
   {
     sense.tail++;
     sense.tail %= STORAGE_SIZE; //Wrap condition
+	return true;
+  }
+  else
+  {
+	return false;
   }
 }
 
@@ -717,6 +722,7 @@ void MAX30105::bitMask(uint8_t reg, uint8_t mask, uint8_t thing)
 bool MAX30105::checkForBeat(uint32_t sample)
 {
   bool beatDetected = false;
+  
   //  Save current state
   IR_AC_Signal_Previous = IR_AC_Signal_Current;
   

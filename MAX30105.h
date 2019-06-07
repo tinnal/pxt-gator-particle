@@ -79,7 +79,7 @@ class MAX30105 {
   //FIFO Reading
   uint16_t check(void); //Checks for new data and fills FIFO
   uint8_t available(void); //Tells caller how many new samples are available (head - tail)
-  void nextSample(void); //Advances the tail of the sense array
+  bool nextSample(void); //Advances the tail of the sense array
   uint32_t getFIFORed(void); //Returns the FIFO sample pointed to by tail
   uint32_t getFIFOIR(void); //Returns the FIFO sample pointed to by tail
   uint32_t getFIFOGreen(void); //Returns the FIFO sample pointed to by tail

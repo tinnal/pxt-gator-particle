@@ -725,7 +725,7 @@ bool MAX30105::checkForBeat(uint32_t sample)
   //  Process next data sample
   IR_Average_Estimated = averageDCEstimator(&ir_avg_reg, sample);
   IR_AC_Signal_Current = lowPassFIRFilter(sample - IR_Average_Estimated);
-  placeholder = IR_Average_Estimated;
+  placeholder = 555;//IR_Average_Estimated;
 
   //  Detect positive zero crossing (rising edge)
   if ((IR_AC_Signal_Previous < 0) && (IR_AC_Signal_Current >= 0))

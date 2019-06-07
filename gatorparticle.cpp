@@ -115,6 +115,6 @@ namespace gatorParticle {
 				break;
 				
 		}
-		return temp;
+		return particleSensor->placeholder;//temp;
 	}
 }

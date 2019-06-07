@@ -21,14 +21,13 @@
 using namespace pxt;
 
 namespace gatorParticle {
-	//MicroBitI2C i2c(I2C_SDA0, I2C_SCL0);
 	MAX30105 *particleSensor;
 	const uint8_t RATE_SIZE = 4; //Increase this for more averaging. 4 is good.
 	uint8_t rates[RATE_SIZE]; //Array of heart rates
 	uint8_t rateSpot = 0;
 	unsigned long lastBeat = 0; //Time at which the last beat occurred
 	
-	float beatsPerMinute = 20;
+	float beatsPerMinute;
 	int beatAvg;
 
 	//%
@@ -54,13 +53,11 @@ namespace gatorParticle {
 		return temp;
 	}
 
-
 	//%
 	void setReadMode(uint8_t mode)
 	{
 		particleSensor->setLEDMode(mode);
 	}
-
 
 	//%
 	void setAmplitude(uint8_t led, uint8_t myBrightness)
@@ -75,12 +72,12 @@ namespace gatorParticle {
 				break;
 		}
 	}
-	
+
 	//%
 	int16_t heartbeat(uint8_t type)
 	{
 		uint8_t temp;
-		particleSensor->safeCheck(250);
+		particleSensor->safeCheck(100);
 		do
 		{
 			uint32_t irValue = particleSensor->getFIFOIR();

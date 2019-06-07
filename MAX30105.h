@@ -47,8 +47,6 @@ class MAX30105 {
 
   void setPulseAmplitudeRed(uint8_t value);
   void setPulseAmplitudeIR(uint8_t value);
-  void setPulseAmplitudeGreen(uint8_t value);
-  void setPulseAmplitudeProximity(uint8_t value);
 
   void setProximityThreshold(uint8_t threshMSB);
 

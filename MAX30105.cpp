@@ -267,6 +267,7 @@ void MAX30105::wakeUp(void) {
 void MAX30105::setLEDMode(uint8_t mode) {
   // Set which LEDs are used for sampling -- Red only, RED+IR only, or custom.
   // See datasheet, page 19
+  activeDiodes = mode - 1;
   bitMask(MAX30105_MODECONFIG, MAX30105_MODE_MASK, mode);
 }
 
@@ -293,14 +294,6 @@ void MAX30105::setPulseAmplitudeRed(uint8_t amplitude) {
 
 void MAX30105::setPulseAmplitudeIR(uint8_t amplitude) {
   writeRegister8(MAX30105_ADDRESS, MAX30105_LED2_PULSEAMP, amplitude);
-}
-
-void MAX30105::setPulseAmplitudeGreen(uint8_t amplitude) {
-  writeRegister8(MAX30105_ADDRESS, MAX30105_LED3_PULSEAMP, amplitude);
-}
-
-void MAX30105::setPulseAmplitudeProximity(uint8_t amplitude) {
-  writeRegister8(MAX30105_ADDRESS, MAX30105_LED_PROX_AMP, amplitude);
 }
 
 void MAX30105::setProximityThreshold(uint8_t threshMSB) {
@@ -478,8 +471,7 @@ void MAX30105::setup(uint8_t powerLevel, uint8_t sampleAverage, uint8_t ledMode,
 
   //Mode Configuration
   //-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
-  if (ledMode == 3) setLEDMode(MAX30105_MODE_MULTILED); //Watch all three LED channels
-  else if (ledMode == 2) setLEDMode(MAX30105_MODE_REDIRONLY); //Red and IR
+  if (ledMode == 2) setLEDMode(MAX30105_MODE_REDIRONLY); //Red and IR
   else setLEDMode(MAX30105_MODE_REDONLY); //Red only
   activeDiodes = ledMode; //Used to control how many uint8_ts to read from FIFO buffer
   //-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
@@ -522,7 +514,6 @@ void MAX30105::setup(uint8_t powerLevel, uint8_t sampleAverage, uint8_t ledMode,
 
   setPulseAmplitudeRed(powerLevel);
   setPulseAmplitudeIR(powerLevel);
-  setPulseAmplitudeProximity(powerLevel);
   //-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 
   //Multi-LED Mode Configuration, Enable the reading of the three LEDs

@@ -80,17 +80,14 @@ namespace gatorParticle {
 	uint8_t heartbeat(uint8_t type)
 	{
 	    uint32_t irValue = particleSensor->getIR();
-		bool heartbeat = particleSensor->checkForBeat(irValue);
-		uint8_t temp;
+		uint8_t temp = irValue;
 		if (particleSensor->checkForBeat(irValue) == true)
 		{
-			
-		uBit.serial.sendChar('c');
 			//We sensed a beat!
 			unsigned long delta = uBit.systemTime() - lastBeat;
 			lastBeat = uBit.systemTime();
 
-			beatsPerMinute = 60 / (delta / 1000.0);
+			beatsPerMinute = (float)uBit.systemTime();//60 / (delta / 1000.0);
 
 			if (beatsPerMinute < 255 && beatsPerMinute > 20)
 			{
@@ -110,11 +107,11 @@ namespace gatorParticle {
 		switch(type)
 		{
 			case 0:
-				temp = (uint8_t)beatsPerMinute;
+				//temp = (uint8_t)beatsPerMinute;
 				break;
 				
 			case 1:
-				temp = (uint8_t)beatAvg;
+				//temp = (uint8_t)beatAvg;
 				break;
 				
 		}

@@ -731,7 +731,6 @@ void MAX30105::bitMask(uint8_t reg, uint8_t mask, uint8_t thing)
 bool MAX30105::checkForBeat(uint32_t sample)
 {
   bool beatDetected = false;
-  uBit.serial.send((uint8_t) sample);
   //  Save current state
   IR_AC_Signal_Previous = IR_AC_Signal_Current;
   
@@ -744,7 +743,7 @@ bool MAX30105::checkForBeat(uint32_t sample)
   IR_AC_Signal_Current = lowPassFIRFilter(sample - IR_Average_Estimated);
 
   //  Detect positive zero crossing (rising edge)
-  if ((IR_AC_Signal_Previous < 0) && (IR_AC_Signal_Current >= 0))
+  if ((IR_AC_Signal_Previous < 0) & (IR_AC_Signal_Current >= 0))
   {
   
     IR_AC_Max = IR_AC_Signal_max; //Adjust our AC max and min
@@ -755,7 +754,7 @@ bool MAX30105::checkForBeat(uint32_t sample)
     IR_AC_Signal_max = 0;
 
     //if ((IR_AC_Max - IR_AC_Min) > 100 & (IR_AC_Max - IR_AC_Min) < 1000)
-    if (((IR_AC_Max - IR_AC_Min) > 20) && ((IR_AC_Max - IR_AC_Min) < 2000))
+    if (((IR_AC_Max - IR_AC_Min) > 20) & ((IR_AC_Max - IR_AC_Min) < 2000))
     {
       //Heart beat!!!
       beatDetected = true;
@@ -763,7 +762,7 @@ bool MAX30105::checkForBeat(uint32_t sample)
   }
 
   //  Detect negative zero crossing (falling edge)
-  if ((IR_AC_Signal_Previous > 0) && (IR_AC_Signal_Current <= 0))
+  if ((IR_AC_Signal_Previous > 0) & (IR_AC_Signal_Current <= 0))
   {
     positiveEdge = 0;
     negativeEdge = 1;
@@ -771,13 +770,13 @@ bool MAX30105::checkForBeat(uint32_t sample)
   }
 
   //  Find Maximum value in positive cycle
-  if (positiveEdge && (IR_AC_Signal_Current > IR_AC_Signal_Previous))
+  if (positiveEdge & (IR_AC_Signal_Current > IR_AC_Signal_Previous))
   {
     IR_AC_Signal_max = IR_AC_Signal_Current;
   }
 
   //  Find Minimum value in negative cycle
-  if (negativeEdge && (IR_AC_Signal_Current < IR_AC_Signal_Previous))
+  if (negativeEdge & (IR_AC_Signal_Current < IR_AC_Signal_Previous))
   {
     IR_AC_Signal_min = IR_AC_Signal_Current;
   }

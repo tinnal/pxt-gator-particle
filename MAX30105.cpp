@@ -34,8 +34,6 @@ static const char MAX30105_MODECONFIG = 		0x09;
 static const char MAX30105_PARTICLECONFIG = 	0x0A;    // Note, sometimes listed as "SPO2" config in datasheet (pg. 11)
 static const char MAX30105_LED1_PULSEAMP = 	0x0C;
 static const char MAX30105_LED2_PULSEAMP = 	0x0D;
-static const char MAX30105_LED3_PULSEAMP = 	0x0E;
-static const char MAX30105_LED_PROX_AMP = 	0x10;
 static const char MAX30105_MULTILEDCONFIG1 = 0x11;
 static const char MAX30105_MULTILEDCONFIG2 = 0x12;
 
@@ -98,7 +96,6 @@ static const char MAX30105_RESET = 			0x40;
 static const char MAX30105_MODE_MASK = 		0xF8;
 static const char MAX30105_MODE_REDONLY = 	0x02;
 static const char MAX30105_MODE_REDIRONLY = 	0x03;
-static const char MAX30105_MODE_MULTILED = 	0x07;
 
 // Particle sensing configuration commands (pgs 19-20)
 static const char MAX30105_ADCRANGE_MASK = 	0x9F;
@@ -743,7 +740,7 @@ bool MAX30105::checkForBeat(uint32_t sample)
   IR_AC_Signal_Current = lowPassFIRFilter(sample - IR_Average_Estimated);
 
   //  Detect positive zero crossing (rising edge)
-  if ((IR_AC_Signal_Previous < 0) & (IR_AC_Signal_Current >= 0))
+  if ((IR_AC_Signal_Previous < 0) && (IR_AC_Signal_Current >= 0))
   {
   
     IR_AC_Max = IR_AC_Signal_max; //Adjust our AC max and min
@@ -754,7 +751,7 @@ bool MAX30105::checkForBeat(uint32_t sample)
     IR_AC_Signal_max = 0;
 
     //if ((IR_AC_Max - IR_AC_Min) > 100 & (IR_AC_Max - IR_AC_Min) < 1000)
-    if (((IR_AC_Max - IR_AC_Min) > 20) & ((IR_AC_Max - IR_AC_Min) < 2000))
+    if (((IR_AC_Max - IR_AC_Min) > 20) && ((IR_AC_Max - IR_AC_Min) < 1000))
     {
       //Heart beat!!!
       beatDetected = true;
@@ -762,7 +759,7 @@ bool MAX30105::checkForBeat(uint32_t sample)
   }
 
   //  Detect negative zero crossing (falling edge)
-  if ((IR_AC_Signal_Previous > 0) & (IR_AC_Signal_Current <= 0))
+  if ((IR_AC_Signal_Previous > 0) && (IR_AC_Signal_Current <= 0))
   {
     positiveEdge = 0;
     negativeEdge = 1;
@@ -770,13 +767,13 @@ bool MAX30105::checkForBeat(uint32_t sample)
   }
 
   //  Find Maximum value in positive cycle
-  if (positiveEdge & (IR_AC_Signal_Current > IR_AC_Signal_Previous))
+  if (positiveEdge && (IR_AC_Signal_Current > IR_AC_Signal_Previous))
   {
     IR_AC_Signal_max = IR_AC_Signal_Current;
   }
 
   //  Find Minimum value in negative cycle
-  if (negativeEdge & (IR_AC_Signal_Current < IR_AC_Signal_Previous))
+  if (negativeEdge && (IR_AC_Signal_Current < IR_AC_Signal_Previous))
   {
     IR_AC_Signal_min = IR_AC_Signal_Current;
   }

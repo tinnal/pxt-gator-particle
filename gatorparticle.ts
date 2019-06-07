@@ -28,8 +28,8 @@ enum heartbeatType{
 }
 
 enum ledMode{
-	red=1,
-	red_and_IR=2,
+	red=2,
+	red_and_IR=3,
 }
  
 //% color=#f44242 icon="\uf06d"

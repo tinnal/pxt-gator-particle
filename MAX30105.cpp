@@ -175,6 +175,7 @@ MAX30105::MAX30105() {
 }
 
 void MAX30105::begin() {
+  MicroBitSerial serial(USBTX, USBRX); 
 
   uBit.init();
   // Step 1: Initial Communication and Verification

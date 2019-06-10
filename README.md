@@ -1,38 +1,50 @@
-# gator:light Light Sensor
+# gator:particle Light Sensor
 
 [![Community Discord](https://img.shields.io/discord/448979533891371018.svg)](https://aka.ms/makecodecommunity)
 
-The gator:starter, which includes the gator:light and gator:temp can be purchased [here.](https://www.sparkfun.com/products/14891)
-The gator:light, included on the gator:starter is an analog light sensor that can be alligator clipped to the micro:bit or gator:bit board.
+The gator:particle, which includes the MAX30102 particle sensor can be purchased [here.](https://www.sparkfun.com/products/15271)
+The gator:particle contains
 
-![SparkFun gator:light](https://raw.githubusercontent.com/sparkfun/pxt-gator-light/master/icon.png)  
+![SparkFun gator:particle](https://raw.githubusercontent.com/sparkfun/pxt-gator-particle/master/icon.jpg)  
 
 ## ~ hint
 
-To use this package, go to https://makecode.microbit.org, click ``Add package`` and search for **gator-light**. The package is located [here](https://makecode.microbit.org/pkg/sparkfun/pxt-gator-light)
+To use this package, go to https://makecode.microbit.org, click ``Add package`` and search for **gator-particle**. The package is located [here](https://makecode.microbit.org/pkg/sparkfun/pxt-gator-particle)
 
 ## ~
 
 ## Basic usage
 
 ```blocks
-//Sets the value of the light variable to the value read from the gator:light
-let light = 0
-light = gatorlight.light(AnalogPin.P0, gatorlightType.Lux)
+//Initializes the gator:particle so we can use it
+gatorParticle.begin()
 ```
 
-Use ``||Get light on pin||`` to read the light value from a gator:light sensor attached to a given pin in lux or the straight ADC value.
-
-## Example: Light Detector
+Use ``||Initialize gator:particle sensor||`` to start the gator:particle up so we can read from it.
 
 ```blocks
-//Read light value and write it to the micro:bit screen as a bar graph.
-let light = 0
+//Reads a value from the Red or Infrared LED
+gatorParticle.color(ledToRead.red)
+```
+
+Use ``||Get red value||`` to get the value from the red channel. Grabbing the infrared channel is as easy as using the dropdown to call ``||Get infrared value||``
+
+```blocks
+//Reads the heartbeat of a finger pressed to the sensor in BPM or as a running average of 4 BPM readings.
+gatorParticle.heartbeat(heartbeatType.BPM)
+```
+
+Use ``||Get heartbeat in BPM||`` to get the heartbeat of finger on the sensor in BPM. Grabbing the average BPM is as easy as using the dropdown to call ``||Get heartbeat in AVG||``
+
+## Example: Red Detector
+
+```blocks
+//Read red value and write it to the micro:bit screen as a bar graph.
+gatorParticle.begin()
 basic.forever(function () {
-    light = gatorlight.light(AnalogPin.P0, gatorlightType.Lux)
     led.plotBarGraph(
-        light,
-        1023
+    gatorParticle.color(ledToRead.red),
+    65000
     )
 })
 ```

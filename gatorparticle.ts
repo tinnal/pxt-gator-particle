@@ -62,6 +62,7 @@ namespace gatorParticle {
 	//% blockId="gatorParticle_setReadMode"
 	//% block="Set LED mode to read %ledMode"
 	//% shim=gatorParticle::setReadMode
+	//% advanced=true
 	export function setReadMode(mode: ledMode)
 	{
 		return
@@ -71,6 +72,7 @@ namespace gatorParticle {
 	//% blockId="gatorParticle_setAmplitude"
 	//% block="Change strength of %ledToRead | to %myBrightness"
 	//% shim=gatorParticle::setAmplitude
+	//% advanced=true
 	export function setAmplitude(led: ledToRead, myBrightness: number)
 	{
 		return

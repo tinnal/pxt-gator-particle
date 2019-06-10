@@ -32,7 +32,7 @@ enum ledMode{
 	red_and_IR=3,
 }
  
-//% color=#f44242 icon="\uf06d"
+//% color=#f44242 icon="\uf004"
 namespace gatorParticle {
     // Functions for reading Particle from the gatorParticle in Particle or straight adv value
 	

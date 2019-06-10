@@ -5,7 +5,7 @@
 The gator:particle, which includes the MAX30102 particle sensor can be purchased [here.](https://www.sparkfun.com/products/15271)
 The gator:particle contains
 
-![SparkFun gator:particle](https://raw.githubusercontent.com/sparkfun/pxt-gator-particle/master/icon.jpg)  
+![SparkFun gator:particle](https://raw.githubusercontent.com/sparkfun/pxt-gator-particle/master/icon.png)  
 
 ## ~ hint
 

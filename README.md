@@ -3,7 +3,7 @@
 [![Community Discord](https://img.shields.io/discord/448979533891371018.svg)](https://aka.ms/makecodecommunity)
 
 The gator:particle, which includes the MAX30102 particle sensor can be purchased [here.](https://www.sparkfun.com/products/15271)
-The gator:particle contains
+The gator:particle contains a MAX30102 particle sensor, which is mainly used for measuring heartrate.
 
 ![SparkFun gator:particle](https://raw.githubusercontent.com/sparkfun/pxt-gator-particle/master/icon.png)  
 

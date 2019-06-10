@@ -36,6 +36,9 @@ enum ledMode{
 namespace gatorParticle {
     // Functions for reading Particle from the gatorParticle in Particle or straight adv value
 	
+	/**
+	* Initializes the gator:particle sensor, must be called on power up
+	*/	
 	//% weight=30 
 	//% blockId="gatorParticle_begin" 
 	//% block="Initialize gator:Particle sensor"
@@ -67,7 +70,10 @@ namespace gatorParticle {
 	{
 		return
 	}
-	
+
+	/**
+	* Set the amplitude of either Red or Infrared LED
+	*/	
 	//% weight=27
 	//% blockId="gatorParticle_setAmplitude"
 	//% block="Change strength of %ledToRead | to %myBrightness"
@@ -78,6 +84,9 @@ namespace gatorParticle {
 		return
 	}
 	
+	/**
+	* Grab the heartbeat from the sensor in either beats per minute, or an average of the last 4 BPM readings.
+	*/
 	//% weight=26
 	//% blockId="gatorParticle_heartbeat"
 	//% block="Detect heartbeat in %heartbeatType"

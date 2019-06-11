@@ -16,6 +16,7 @@
 
 #include "pxt.h"
 #include <cstdint>
+#include <math.h>
 #include "MAX30105.h"
 
 enum ledToRead{

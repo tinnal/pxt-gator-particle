@@ -18,17 +18,23 @@
  */
 
 enum ledToRead{
-	red=1,
+	//% block="red" enumval=1
+	red=1,	
+	//% block="infrared" enumval=2
 	infrared=2,
 };
  
 enum heartbeatType{
+	//% block="BPM" enumval=0
 	BPM=0,
+	//% block="AVG" enumval=1
 	AVG=1,
 };
 
 enum ledMode{
+	//% block="red" enumval=2
 	red=2,
+	//% block="red & infrared" enumval=3
 	red_and_IR=3,
 };
  

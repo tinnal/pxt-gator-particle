@@ -20,17 +20,17 @@
 enum ledToRead{
 	red=1,
 	infrared=2,
-} 
+};
  
 enum heartbeatType{
 	BPM=0,
 	AVG=1,
-}
+};
 
 enum ledMode{
 	red=2,
 	red_and_IR=3,
-}
+};
  
 //% color=#f44242 icon="\uf004"
 namespace gatorParticle {

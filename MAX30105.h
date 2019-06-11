@@ -100,7 +100,7 @@ class MAX30105 {
   uint8_t readPartID();  
 
   // Setup the IC with user selectable settings
-  void setup(uint8_t powerLevel = 0x1F, uint8_t sampleAverage = 4, uint8_t ledMode = 2, int sampleRate = 400, int pulseWidth = 411, int adcRange = 4096);
+  void setup(uint8_t powerLevel, uint8_t sampleAverage, uint8_t ledMode, int sampleRate, int pulseWidth, int adcRange);
 
   bool checkForBeat(uint32_t sample);
   int16_t averageDCEstimator(int32_t *p, uint16_t x);

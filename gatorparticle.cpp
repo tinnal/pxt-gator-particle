@@ -40,17 +40,17 @@ namespace gatorParticle {
 	//%
 	uint32_t color(uint8_t type)
 	{
-		uint32_t temp;
+		uint32_t colorValue;
 		switch(type)
 		{
 			case 1:
-				temp = particleSensor->getRed();
+				colorValue = particleSensor->getRed();
 				break;
 			case 2:
-				temp = particleSensor->getIR();
+				colorValue = particleSensor->getIR();
 				break;
 		}
-		return temp;
+		return colorValue;
 	}
 
 	//%
@@ -76,7 +76,7 @@ namespace gatorParticle {
 	//%
 	int16_t heartbeat(uint8_t type)
 	{
-		uint8_t temp;
+		uint8_t myBeat;
 		particleSensor->safeCheck(100);
 		do
 		{
@@ -91,7 +91,6 @@ namespace gatorParticle {
 
 				if (beatsPerMinute < 255 && beatsPerMinute > 20)
 				{
-					temp = 80;
 					rates[rateSpot++] = (uint8_t)beatsPerMinute; //Store this reading in the array
 					rateSpot %= RATE_SIZE; //Wrap variable
 
@@ -107,14 +106,14 @@ namespace gatorParticle {
 		switch(type)
 		{
 			case 0:
-				temp = (uint8_t)beatsPerMinute;
+				myBeat = (uint8_t)beatsPerMinute;
 				break;
 				
 			case 1:
-				temp = (uint8_t)beatAvg;
+				myBeat = (uint8_t)beatAvg;
 				break;
 				
 		}
-		return temp;
+		return myBeat;
 	}
 }

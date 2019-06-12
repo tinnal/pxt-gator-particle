@@ -10,12 +10,14 @@
  *****************************************************/
 
 #include "MAX30105.h"
-#include "mbed.h"
+
+#ifndef __MICROBIT_H_
+#define __MICROBIT_H_
 #include "MicroBit.h"
-
 MicroBit uBit;
+#endif
 
-  int16_t placeholder;
+int16_t placeholder;
 
 static const char MAX30105_ADDRESS = 0xAE;
 // Status Registers

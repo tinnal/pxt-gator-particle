@@ -11,10 +11,10 @@
 
 #pragma once
 
+#ifndef __MBED_H_
+#define __MBED_H_
 #include "mbed.h"
-#include "MicroBit.h"
- //8-bit I2C Address
-//Note that MAX30102 has the same I2C address and Part ID
+#endif
 
 #define I2C_SPEED_STANDARD        100000
 #define I2C_SPEED_FAST            400000

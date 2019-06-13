@@ -26,10 +26,10 @@ namespace gatorParticle {
 	*/	
 	//% weight=30 
 	//% blockId="gatorParticle_begin" 
-	//% block="Initialize gator:Particle sensor"
+	//% block="initialize gator:Particle sensor"
 	//% shim=gatorParticle::begin
 	export function begin(){
-		return
+		
 	}
 		
 	/**
@@ -37,7 +37,7 @@ namespace gatorParticle {
 	*/
 	//% weight=29 
 	//% blockId="gatorParticle_color" 
-	//% block="Get %ledToRead value"
+	//% block="get %ledToRead value"
 	//% shim=gatorParticle::color
 	export function color(type: ledToRead): number{
 		return 0
@@ -48,12 +48,12 @@ namespace gatorParticle {
 	*/	
 	//% weight=28
 	//% blockId="gatorParticle_setReadMode"
-	//% block="Set LED mode to read %ledMode"
+	//% block="set LED mode to read %ledMode"
 	//% shim=gatorParticle::setReadMode
 	//% advanced=true
 	export function setReadMode(mode: ledMode)
 	{
-		return
+		
 	}
 
 	/**
@@ -61,12 +61,12 @@ namespace gatorParticle {
 	*/	
 	//% weight=27
 	//% blockId="gatorParticle_setAmplitude"
-	//% block="Change strength of %ledToRead | to %myBrightness"
+	//% block="change strength of %ledToRead | to %myBrightness"
 	//% shim=gatorParticle::setAmplitude
 	//% advanced=true
 	export function setAmplitude(led: ledToRead, myBrightness: number)
 	{
-		return
+		
 	}
 	
 	/**
@@ -74,7 +74,7 @@ namespace gatorParticle {
 	*/
 	//% weight=26
 	//% blockId="gatorParticle_heartbeat"
-	//% block="Detect heartbeat in %heartbeatType"
+	//% block="detect heartbeat in %heartbeatType"
 	//% shim=gatorParticle::heartbeat
 	export function heartbeat(type: heartbeatType): number
 	{

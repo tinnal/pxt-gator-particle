@@ -14,8 +14,9 @@
 #ifndef __MICROBIT_H_
 #define __MICROBIT_H_
 #include "MicroBit.h"
-MicroBit uBit;
 #endif
+
+static MicroBitI2C i2c(I2C_SDA0, I2C_SCL0);
 
 int16_t placeholder;
 
@@ -246,12 +247,12 @@ void MAX30105::softReset(void) {
 
   // Poll for bit to clear, reset is then complete
   // Timeout after 100ms
-  unsigned long startTime = uBit.systemTime();
-  while (uBit.systemTime() - startTime < 100)
+  unsigned long startTime = system_timer_current_time();
+  while (system_timer_current_time() - startTime < 100)
   {
     uint8_t response = readRegister8(MAX30105_ADDRESS, MAX30105_MODECONFIG);
     if ((response & MAX30105_RESET) == 0) break; //We're done!
-    uBit.sleep(1); //Let's not over burden the I2C bus
+    fiber_sleep(1); //Let's not over burden the I2C bus
   }
 }
 
@@ -394,8 +395,8 @@ float MAX30105::readTemperature() {
 
   // Poll for bit to clear, reading is then complete
   // Timeout after 100ms
-  unsigned long startTime = uBit.systemTime();
-  while (uBit.systemTime() - startTime < 100)
+  unsigned long startTime = system_timer_current_time();
+  while (system_timer_current_time() - startTime < 100)
   {
     //uint8_t response = readRegister8(MAX30105_ADDRESS, MAX30105_DIETEMPCONFIG); //Original way
     //if ((response & 0x01) == 0) break; //We're done!
@@ -403,7 +404,7 @@ float MAX30105::readTemperature() {
 	//Check to see if DIE_TEMP_RDY interrupt is set
 	uint8_t response = readRegister8(MAX30105_ADDRESS, MAX30105_INTSTAT2);
     if ((response & MAX30105_INT_DIE_TEMP_RDY_ENABLE) > 0) break; //We're done!
-    uBit.sleep(1); //Let's not over burden the I2C bus
+    fiber_sleep(1); //Let's not over burden the I2C bus
   }
   //TODO How do we want to fail? With what type of error?
   //? if(uBit.systemTime() - startTime >= 100) return(-999.0);
@@ -456,7 +457,6 @@ uint8_t MAX30105::getRevisionID() {
 //Use the default setup if you are just getting started with the MAX30105 sensor
 void MAX30105::setup(uint8_t powerLevel, uint8_t sampleAverage, uint8_t ledMode, int sampleRate, int pulseWidth, int adcRange) {
   softReset(); //Reset all configuration, threshold, and data registers to POR values
-
   //FIFO Configuration
   //-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
   //The chip will average multiple samples of same type together if you wish
@@ -642,13 +642,13 @@ uint16_t MAX30105::check(void)
       uint8_t toGet = activeDiodes * 3;
 
       //Request toGet number of uint8_ts from sensor
-      //uBit.i2c.requestFrom(MAX30105_ADDRESS, toGet);
+      //i2c.requestFrom(MAX30105_ADDRESS, toGet);
       while(toGet > 0)
 	  {
 		uint8_t temp[9]; //Array of 9 uint8_ts that we will convert into longs
 		uint8_t temp2[4];
         uint32_t tempLong;
-		uBit.i2c.readRegister(MAX30105_ADDRESS, (uint8_t)MAX30105_FIFODATA, temp, toGet);
+		i2c.readRegister(MAX30105_ADDRESS, (uint8_t)MAX30105_FIFODATA, temp, toGet);
         sense.head++; //Advance the head of the storage struct
         sense.head %= STORAGE_SIZE; //Wrap condition
 		for (int led = 0; led < activeDiodes; led++)
@@ -688,11 +688,11 @@ uint16_t MAX30105::check(void)
 //Returns false if new data was not found
 bool MAX30105::safeCheck(uint8_t maxTimeToCheck)
 {
-  uint32_t markTime = uBit.systemTime();
+  uint64_t markTime = system_timer_current_time();
   
   while(1)
   {
-	if(uBit.systemTime() - markTime > maxTimeToCheck){
+	if(system_timer_current_time() - markTime > maxTimeToCheck){
 		
 		return(false);
 	}
@@ -701,7 +701,7 @@ bool MAX30105::safeCheck(uint8_t maxTimeToCheck)
 	{ //We found new data!
 	  return(true);
 	}
-	uBit.sleep(1);
+	fiber_sleep(1);
   }
 }
 
@@ -819,9 +819,9 @@ int32_t MAX30105::mul16(int16_t x, int16_t y)
 // Low-level I2C Communication
 //
 uint8_t MAX30105::readRegister8(uint8_t address, uint8_t reg) {
-  return uBit.i2c.readRegister(address, reg); //Fail
+  return i2c.readRegister(address, reg); //Fail
 }
 
 void MAX30105::writeRegister8(uint8_t address, uint8_t reg, uint8_t value) {
-  uBit.i2c.writeRegister(address, reg, value);
+  i2c.writeRegister(address, reg, value);
 }

@@ -29,7 +29,7 @@ namespace gatorParticle {
 	//% block="initialize gator:Particle sensor"
 	//% shim=gatorParticle::begin
 	export function begin(){
-		
+		return
 	}
 		
 	/**
@@ -53,7 +53,7 @@ namespace gatorParticle {
 	//% advanced=true
 	export function setReadMode(mode: ledMode)
 	{
-		
+		return
 	}
 
 	/**
@@ -66,7 +66,7 @@ namespace gatorParticle {
 	//% advanced=true
 	export function setAmplitude(led: ledToRead, myBrightness: number)
 	{
-		
+		return
 	}
 	
 	/**

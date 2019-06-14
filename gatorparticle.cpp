@@ -55,7 +55,7 @@ namespace gatorParticle {
 	//%
 	void begin()
 	{
-		particleSensor->begin();
+		particleSensor->beginParticle();
 		particleSensor->setup(0x1F, 4, 2, 400, 411, 4096);
 	}
 	

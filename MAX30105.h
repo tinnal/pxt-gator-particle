@@ -27,7 +27,7 @@ class MAX30105 {
 
   MAX30105(void);
 
-  void begin();
+  void beginParticle();
 
   uint32_t getRed(void); //Returns immediate red value
   uint32_t getIR(void); //Returns immediate IR value

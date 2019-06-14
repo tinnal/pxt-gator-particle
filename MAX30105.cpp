@@ -179,7 +179,7 @@ MAX30105::MAX30105() {
   // Constructor
 }
 
-void MAX30105::begin() {
+void MAX30105::beginParticle() {
 
   // Step 1: Initial Communication and Verification
   // Check that a MAX30105 is connected

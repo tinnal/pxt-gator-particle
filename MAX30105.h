@@ -16,6 +16,8 @@
 #include "mbed.h"
 #endif
 
+#include "pxt.h"
+
 #define I2C_SPEED_STANDARD        100000
 #define I2C_SPEED_FAST            400000
 

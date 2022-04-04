@@ -16,7 +16,7 @@
 #include "MicroBit.h"
 #endif
 
-static MicroBitI2C i2c(I2C_SDA0, I2C_SCL0);
+//static MicroBitI2C i2c(I2C_SDA0, I2C_SCL0);
 
 int16_t placeholder;
 
@@ -819,9 +819,21 @@ int32_t MAX30105::mul16(int16_t x, int16_t y)
 // Low-level I2C Communication
 //
 uint8_t MAX30105::readRegister8(uint8_t address, uint8_t reg) {
-  return i2c.readRegister(address, reg); //Fail
+	uint8_t data;
+	uBit.i2c.readRegister(address, reg, &data, 1);
+	return data;
 }
 
 void MAX30105::writeRegister8(uint8_t address, uint8_t reg, uint8_t value) {
-  i2c.writeRegister(address, reg, value);
+
+#if MICROBIT_CODAL
+	uint8_t temp[2];
+#else 
+	char temp[2];
+#endif
+	temp[0] = reg;
+	memcpy(&temp[1], &value, 2); 
+
+	uBit.i2c.write(address, temp, 2);
+
 }

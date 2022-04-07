@@ -21,6 +21,8 @@
 int16_t placeholder;
 
 static const char MAX30105_ADDRESS = 0xAE;
+
+
 // Status Registers
 static const char MAX30105_INTSTAT1 =		0x00;
 static const char MAX30105_INTSTAT2 =		0x01;
@@ -626,7 +628,8 @@ uint16_t MAX30105::check(void)
   {
     //Calculate the number of readings we need to get from sensor
     numberOfSamples = writePointer - readPointer;
-    if (numberOfSamples < 0) numberOfSamples += I2C_BUFFER_LENGTH; //Wrap condition
+    if (numberOfSamples < 0) 
+		numberOfSamples += I2C_BUFFER_LENGTH; //Wrap condition
 
     //We now have the number of readings, now calc uint8_ts to read
     //For this example we are just doing Red and IR (3 uint8_ts each)
@@ -648,7 +651,9 @@ uint16_t MAX30105::check(void)
 		uint8_t temp[9]; //Array of 9 uint8_ts that we will convert into longs
 		uint8_t temp2[4];
         uint32_t tempLong;
-		i2c.readRegister(MAX30105_ADDRESS, (uint8_t)MAX30105_FIFODATA, temp, toGet);
+	
+		uBit.i2c.readRegister(MAX30105_ADDRESS, (uint8_t)MAX30105_FIFODATA, temp, toGet);
+
         sense.head++; //Advance the head of the storage struct
         sense.head %= STORAGE_SIZE; //Wrap condition
 		for (int led = 0; led < activeDiodes; led++)
@@ -823,6 +828,13 @@ uint8_t MAX30105::readRegister8(uint8_t address, uint8_t reg) {
 	uBit.i2c.readRegister(address, reg, &data, 1);
 	return data;
 }
+
+/*void MAX30105::readMultipleRegisters(uint8_t addr, uint8_t * dest, uint8_t len)
+{
+	uBit.i2c.readRegister(RV3028_ADDR, addr, dest, len);
+}
+*/
+
 
 void MAX30105::writeRegister8(uint8_t address, uint8_t reg, uint8_t value) {
 

@@ -829,13 +829,6 @@ uint8_t MAX30105::readRegister8(uint8_t address, uint8_t reg) {
 	return data;
 }
 
-/*void MAX30105::readMultipleRegisters(uint8_t addr, uint8_t * dest, uint8_t len)
-{
-	uBit.i2c.readRegister(RV3028_ADDR, addr, dest, len);
-}
-*/
-
-
 void MAX30105::writeRegister8(uint8_t address, uint8_t reg, uint8_t value) {
 
 #if MICROBIT_CODAL

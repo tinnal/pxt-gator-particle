@@ -643,7 +643,7 @@ uint16_t MAX30105::check(void)
     {
 		
       uint8_t toGet = activeDiodes * 3;
-
+		
       //Request toGet number of uint8_ts from sensor
       //i2c.requestFrom(MAX30105_ADDRESS, toGet);
       while(toGet > 0)
@@ -654,8 +654,12 @@ uint16_t MAX30105::check(void)
 	
 		uBit.i2c.readRegister(MAX30105_ADDRESS, (uint8_t)MAX30105_FIFODATA, temp, toGet);
 
+		//uint8_t originalContents = readRegister8(MAX30105_ADDRESS, reg);
+		sleep_us(10);		
+
         sense.head++; //Advance the head of the storage struct
         sense.head %= STORAGE_SIZE; //Wrap condition
+
 		for (int led = 0; led < activeDiodes; led++)
 		{
 			uint8_t checkOffset = led * 3;
@@ -664,7 +668,9 @@ uint16_t MAX30105::check(void)
 			temp2[1] = temp[1 + checkOffset];
 			temp2[2] = temp[checkOffset];
 			memcpy(&tempLong, temp2, sizeof(tempLong)); //tempLong is 4 bytes, we only need 3
+			
 			tempLong &= 0x3FFFF;
+			
 			switch (led)
 			{
 				case 0:
@@ -694,10 +700,10 @@ uint16_t MAX30105::check(void)
 bool MAX30105::safeCheck(uint8_t maxTimeToCheck)
 {
   uint64_t markTime = system_timer_current_time();
-  
+
   while(1)
   {
-	if(system_timer_current_time() - markTime > maxTimeToCheck){
+	if((system_timer_current_time() - markTime) > maxTimeToCheck){
 		
 		return(false);
 	}
@@ -734,15 +740,17 @@ bool MAX30105::checkForBeat(uint32_t sample)
   IR_AC_Signal_Previous = IR_AC_Signal_Current;
   
   //This is good to view for debugging
-  //uBit.serial.send("Signal_Current: ");
-  //uBit.serial.send(IR_AC_Signal_Current);
+  //uBit.serial.send("sample: ");
+  //uBit.serial.printf("%d", sample);
+  //uBit.serial.send("\n");
+		sleep_us(20);
 
   //  Process next data sample
   IR_Average_Estimated = averageDCEstimator(&ir_avg_reg, sample);
   IR_AC_Signal_Current = lowPassFIRFilter(sample - IR_Average_Estimated);
 
   //  Detect positive zero crossing (rising edge)
-  if ((IR_AC_Signal_Previous < 0) && (IR_AC_Signal_Current >= 0))
+  if ((IR_AC_Signal_Previous <= 0) && (IR_AC_Signal_Current >= 0))
   {
   
     IR_AC_Max = IR_AC_Signal_max; //Adjust our AC max and min
@@ -756,7 +764,6 @@ bool MAX30105::checkForBeat(uint32_t sample)
     if (((IR_AC_Max - IR_AC_Min) > 20) && ((IR_AC_Max - IR_AC_Min) < 1000))
     {
 	  placeholder++;
-      //Heart beat!!!
       beatDetected = true;
     }
   }

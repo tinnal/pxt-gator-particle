@@ -14,9 +14,8 @@
 
 
 /**
- * Functions to operate the gatorParticle sensor
- */
- 
+* Functions for working with the gator:particle
+*/ 
 //% color=#f44242 icon="\uf004"
 namespace gatorParticle {
     // Functions for reading Particle from the gatorParticle in Particle or straight adv value
@@ -37,14 +36,14 @@ namespace gatorParticle {
 	*/
 	//% weight=29 
 	//% blockId="gatorParticle_color" 
-	//% block="get %LEDToRead value"
+	//% block="%LEDToRead value"
 	//% shim=gatorParticle::color
 	export function color(type: LEDToRead): number{
 		return 0
 	}
 	
 	/**
-	* Set which LED's we want the sensor to update and read.
+	* Set which LEDs we want the sensor to update and read.
 	*/	
 	//% weight=28
 	//% blockId="gatorParticle_setReadMode"
@@ -74,7 +73,7 @@ namespace gatorParticle {
 	*/
 	//% weight=26
 	//% blockId="gatorParticle_heartbeat"
-	//% block="detect heartbeat in %HeartbeatType"
+	//% block="heartbeat in %HeartbeatType"
 	//% shim=gatorParticle::heartbeat
 	export function heartbeat(type: HeartbeatType): number
 	{

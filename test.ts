@@ -18,12 +18,12 @@
  */
 
 gatorParticle.begin()
-gatorParticle.setReadMode(ledMode.red_and_IR)
-gatorParticle.setAmplitude(ledToRead.red, 255)
-gatorParticle.setAmplitude(ledToRead.infrared, 255)
+gatorParticle.setReadMode(LEDMode.RedAndIR)
+gatorParticle.setAmplitude(LEDToRead.Red, 255)
+gatorParticle.setAmplitude(LEDToRead.Infrared, 255)
 basic.forever(function () {
-    serial.writeLine("" + gatorParticle.color(ledToRead.red))
-    serial.writeLine("" + gatorParticle.color(ledToRead.infrared))
-    serial.writeLine("" + gatorParticle.heartbeat(heartbeatType.BPM))
-    serial.writeLine("" + gatorParticle.heartbeat(heartbeatType.AVG))
+    serial.writeLine("" + gatorParticle.color(LEDToRead.Red))
+    serial.writeLine("" + gatorParticle.color(LEDToRead.Infrared))
+    serial.writeLine("" + gatorParticle.heartbeat(HeartbeatType.BPM))
+    serial.writeLine("" + gatorParticle.heartbeat(HeartbeatType.AVG))
 })

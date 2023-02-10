@@ -105,7 +105,6 @@ namespace gatorParticle {
 			uint32_t irValue = particleSensor->getFIFOIR();
 			if (particleSensor->checkForBeat(irValue) == true)
 			{
-				//We sensed a beat!
 				unsigned long delta = uBit.systemTime() - lastBeat;
 				lastBeat = uBit.systemTime();
 

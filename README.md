@@ -24,17 +24,17 @@ Use ``||Initialize gator:particle sensor||`` to start the gator:particle up so w
 
 ```blocks
 //Reads a value from the Red or Infrared LED
-gatorParticle.color(ledToRead.red)
+gatorParticle.color(LEDToRead.Red)
 ```
 
-Use ``||Get red value||`` to get the value from the red channel. Grabbing the infrared channel is as easy as using the dropdown to call ``||Get infrared value||``
+Use ``||Red value||`` to get the value from the red channel. Grabbing the infrared channel is as easy as using the dropdown to call ``||Infrared value||``
 
 ```blocks
 //Reads the heartbeat of a finger pressed to the sensor in BPM or as a running average of 4 BPM readings.
 gatorParticle.heartbeat(heartbeatType.BPM)
 ```
 
-Use ``||Get heartbeat in BPM||`` to get the heartbeat of finger on the sensor in BPM. Grabbing the average BPM is as easy as using the dropdown to call ``||Get heartbeat in AVG||``
+Use ``||heartbeat in BPM||`` to get the heartbeat of finger on the sensor in BPM. Grabbing the average BPM is as easy as using the dropdown to call ``||heartbeat in AVG||``
 
 ## Example: Red Detector
 
@@ -43,7 +43,7 @@ Use ``||Get heartbeat in BPM||`` to get the heartbeat of finger on the sensor in
 gatorParticle.begin()
 basic.forever(function () {
     led.plotBarGraph(
-    gatorParticle.color(ledToRead.red),
+    gatorParticle.color(LEDToRead.red),
     65000
     )
 })

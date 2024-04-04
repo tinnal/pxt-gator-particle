@@ -136,6 +136,6 @@ namespace gatorParticle {
 				}
 			}
 		} while(particleSensor->nextSample());
-		return 0；
+		return 0;
 	}
 }

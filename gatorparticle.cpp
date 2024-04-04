@@ -121,20 +121,21 @@ namespace gatorParticle {
 						beatAvg += rates[x];
 					}
 					beatAvg /= RATE_SIZE;
+
+					switch(type)
+					{
+					case 0:
+						myBeat = (uint8_t)beatsPerMinute;
+						break;
+
+					case 1:
+						myBeat = (uint8_t)beatAvg;
+						break;
+					}
+					return myBeat;
 				}
 			}
 		} while(particleSensor->nextSample());
-		switch(type)
-		{
-			case 0:
-				myBeat = (uint8_t)beatsPerMinute;
-				break;
-				
-			case 1:
-				myBeat = (uint8_t)beatAvg;
-				break;
-				
-		}
-		return myBeat;
+		return 0；
 	}
 }

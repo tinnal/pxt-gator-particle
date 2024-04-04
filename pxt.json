@@ -1,7 +1,7 @@
 {
-    "name": "gatorParticle",
+    "name": "gatorParticleModified",
     "version": "1.1.6.1",
-    "description": "SparkFun gator:Particle Sensor",
+    "description": "SparkFun gator:Particle Sensor（modified by fengfuqiu）",
     "license": "MIT",
     "dependencies": {
         "core": "*"
